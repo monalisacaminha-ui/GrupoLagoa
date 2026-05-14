@@ -69,7 +69,7 @@ td{padding:9px 10px;border-bottom:1px solid var(--bg);vertical-align:middle}
   <label>Refeição:</label>
   <select id="filtroRefeicao" onchange="applyFilters()"><option value="">Todas</option><option>Almoço</option><option>Jantar</option></select>
   <label>Período:</label>
-  <select id="filtroDias" onchange="applyFilters()"><option value="">Todo período</option><option value="1">Hoje</option><option value="7">Últimos 7 dias</option><option value="30">Últimos 30 dias</option></select>
+  <select id="filtroDias" onchange="applyFilters()"><option value="">Todo período</option><option value="1">Hoje</option><option value="7">últimos 7 dias</option><option value="30">últimos 30 dias</option><option value="custom">Personalizado</option></select><span id="customDateWrap" style="display:none;align-items:center;gap:6px"><input type="date" id="dataInicio" onchange="applyFilters()" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--surface);outline:none"><span style="font-size:12px;color:var(--muted)">até</span><input type="date" id="dataFim" onchange="applyFilters()" style="padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--surface);outline:none"></span>
   <button class="btn-refresh" onclick="loadData()">↻ Atualizar agora</button>
 </div>
 <div class="content">
@@ -125,11 +125,19 @@ async function loadData(){
 function applyFilters(){
   const lj=document.getElementById('filtroLoja').value;
   const rf=document.getElementById('filtroRefeicao').value;
-  const ds=parseInt(document.getElementById('filtroDias').value)||0;
+  const dsVal=document.getElementById('filtroDias').value;
+  const ds=dsVal==='custom'?0:parseInt(dsVal)||0;
+  const wrap=document.getElementById('customDateWrap');
+  if(wrap)wrap.style.display=dsVal==='custom'?'inline-flex':'none';
   let d=[...rows];
   if(lj)d=d.filter(r=>r['Loja']===lj);
   if(rf)d=d.filter(r=>r['Refeição']===rf);
-  if(ds){const c=Date.now()-ds*86400000;d=d.filter(r=>{const x=new Date(r['Data']);return!isNaN(x)&&x.getTime()>c;});}
+  if(dsVal==='custom'){
+    const di=document.getElementById('dataInicio').value;
+    const df=document.getElementById('dataFim').value;
+    if(di)d=d.filter(r=>{const x=new Date(r['Data']);return!isNaN(x)&&x>=new Date(di);});
+    if(df)d=d.filter(r=>{const x=new Date(r['Data']);return!isNaN(x)&&x<=new Date(df+'T23:59:59');});
+  }else if(ds){const c=Date.now()-ds*86400000;d=d.filter(r=>{const x=new Date(r['Data']);return!isNaN(x)&&x.getTime()>c;});}
   render(d);
 }
 function render(d){
@@ -156,7 +164,7 @@ function render(d){
   const lg={};d.forEach(r=>{const l=r['Loja']||'?';if(!lg[l])lg[l]=[];lg[l].push(r);});const ls=Object.entries(lg).map(function(e){var avgs=CK.map(c=>avg(e[1],c)).filter(v=>v>0);return[e[0],avgs.length?+(avgs.reduce((s,v)=>s+v,0)/avgs.length).toFixed(2):0];}).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
   dc('cL');ch['cL']=new Chart(document.getElementById('cL'),{type:'bar',data:{labels:ls.map(x=>x[0]),datasets:[{data:ls.map(x=>x[1]),backgroundColor:'#4A7C2F',borderRadius:6,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,min:0,max:5},x:{grid:{display:false},ticks:{autoSkip:false,maxRotation:50}}}}});
   const il=['Excelente','Ótimo','Bom','Regular','Muito ruim'];
-  dc('cI');ch['cI']=new Chart(document.getElementById('cI'),{type:'doughnut',data:{labels:il,datasets:[{data:il.map(l=>d.filter(r=>r['Impressão Geral']===l).length),backgroundColor:il.map(l=>IC[l]),borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{font:{size:11},boxWidth:12}}}}});
+  dc('cI');ch['cI']=new Chart(document.getElementById('cI'),{type:'doughnut',data:{labels:il,datasets:[{data:il.map(l=>d.length>0?parseFloat((d.filter(r=>r['Impressão Geral']===l).length/d.length*100).toFixed(1)):0),backgroundColor:il.map(l=>IC[l]),borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{font:{size:11},boxWidth:12}},tooltip:{callbacks:{label:function(ctx){return ctx.label+': '+ctx.raw+'%';}}}}}});
   const am=d.filter(r=>r['Refeição']==='Almoço'),jm=d.filter(r=>r['Refeição']==='Jantar');
   dc('cR');ch['cR']=new Chart(document.getElementById('cR'),{type:'bar',data:{labels:ms.map(x=>x.label),datasets:[{label:'Almoço',data:ms.map(x=>avg(am,x.label)),backgroundColor:'#4A7C2F',borderRadius:4},{label:'Jantar',data:ms.map(x=>avg(jm,x.label)),backgroundColor:'#97C459',borderRadius:4}]},options:{responsive:true,scales:{y:{min:0,max:5},x:{grid:{display:false}}}}});
   const hm={};d.forEach(r=>{const h=r['Horário']||'?';if(!hm[h])hm[h]=[];hm[h].push(r);});const hs=Object.keys(hm).sort();
