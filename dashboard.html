@@ -90,9 +90,14 @@ td{padding:9px 10px;border-bottom:1px solid var(--bg);vertical-align:middle}
   </div>
   <div class="card">
     <div class="card-title">Últimas 50 respostas</div>
-    <div class="table-wrap"><table><thead><tr><th>Data</th><th>Loja</th><th>Refeição</th><th>Horário</th><th>Qualidade</th><th>Variedade</th><th>Temp.</th><th>Limpeza</th><th>Impressão</th><th>Comentário</th></tr></thead>
-    <tbody id="tbody"><tr><td colspan="10" class="empty-state">Carregando...</td></tr></tbody></table></div>
-  </div>
+    <div class="table-wrap"><table><thead><tr><th>Data</th><th>Loja</th><th>Refeição</th><th>Horário</th><th>Qualidade</th><th>Variedade</th><th>Temp.</th><th>Limpeza</th><th>Impressão</th></tr></thead>
+    <tbody id="tbody"><tr><td colspan="9" class="empty-state">Carregando...</td></tr></tbody></table></div>
+  </div
+<div class="card" style="margin-top:16px">
+  <div class="card-title">Todos os comentários</div>
+  <div class="table-wrap"><table id="comments-table"><thead><tr><th>Data</th><th>Loja</th><th>Refeição</th><th>Horário</th><th>Impressão</th><th>Comentário</th></tr></thead>
+  <tbody id="tbody-comments"><tr><td colspan="6" class="empty-state">Carregando...</td></tr></tbody></table></div>
+</div>>
 </div>
 <script>
 const SU='https://script.google.com/a/macros/superlagoa.com.br/s/AKfycbz2gaOhqWX4jWS3-v6xHEqibbICn9NcUrTbB6XR0YeZg8ZpFOzeKH2yP-oTyqHpYJq_/exec';
@@ -139,6 +144,7 @@ function applyFilters(){
     if(df)d=d.filter(r=>{const x=new Date(r['Data']);return!isNaN(x)&&x<=new Date(df+'T23:59:59');});
   }else if(ds){const c=Date.now()-ds*86400000;d=d.filter(r=>{const x=new Date(r['Data']);return!isNaN(x)&&x.getTime()>c;});}
   render(d);
+  renderComments(d);
 }
 function render(d){
   const n=d.length;
@@ -173,7 +179,15 @@ function render(d){
   dc('cE');ch['cE']=new Chart(document.getElementById('cE'),{type:'line',data:{labels:days,datasets:[{label:'Média',data:days.map(k=>avgA(dm[k])),borderColor:'#4A7C2F',backgroundColor:'rgba(74,124,47,.1)',pointBackgroundColor:'#4A7C2F',pointRadius:4,fill:true,tension:.35}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{min:0,max:5},x:{grid:{display:false}}}}});
   const tb=document.getElementById('tbody');
   if(!n){tb.innerHTML='<tr><td colspan="12" class="empty-state">📭 Nenhuma resposta encontrada.</td></tr>';return;}
-  tb.innerHTML=[...d].reverse().slice(0,50).map(r=>`<tr><td style="font-size:11px;color:var(--light)">${r['Data']||'—'}</td><td><span class="loja-tag">${r['Loja']||'—'}</span></td><td>${r['Refeição']||'—'}</td><td>${r['Horário']||'—'}</td><td>${sc(r['Qualidade'])}</td><td>${sc(r['Variedade'])}</td><td>${sc(r['Temperatura'])}</td><td>${sc(r['Limpeza'])}</td><td><span class="imp-badge imp-${(r['Impressão Geral']||'').replace(' ','.')}">${r['Impressão Geral']||'—'}</span></td><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r['Comentário']||''}</td></tr>`).join('');
+  tb.innerHTML=[...d].reverse().slice(0,50).map(r=>`<tr><td style="font-size:11px;color:var(--light)">${r['Data']||'—'}</td><td><span class="loja-tag">${r['Loja']||'—'}</span></td><td>${r['Refeição']||'—'}</td><td>${r['Horário']||'—'}</td><td>${sc(r['Qualidade'])}</td><td>${sc(r['Variedade'])}</td><td>${sc(r['Temperatura'])}</td><td>${sc(r['Limpeza'])}</td><td><span class="imp-badge imp-${(r['Impressão Geral']||'').replace(' ','.')}">${r['Impressão Geral']||'—'}</span></td></tr>`).join('');
+}
+
+function renderComments(d){
+  const withComments = d.filter(r => r['Comentário'] && r['Comentário'].trim());
+  const tb = document.getElementById('tbody-comments');
+  if(!tb) return;
+  if(!withComments.length){tb.innerHTML='<tr><td colspan="6" class="empty-state">Nenhum comentário encontrado</td></tr>';return;}
+  tb.innerHTML = withComments.map(r => `<tr><td style="font-size:11px;color:var(--light);white-space:nowrap">${r['Data']}</td><td><span class="loja-tag">${r['Loja']||''}</span></td><td>${r['Refeição']||''}</td><td>${r['Horário']||''}</td><td><span class="imp-badge imp-${(r['Impressão Geral']||'')}  ">${r['Impressão Geral']||''}</span></td><td>${r['Comentário']}</td></tr>`).join('');
 }
 loadData();
 setInterval(loadData,30000);
