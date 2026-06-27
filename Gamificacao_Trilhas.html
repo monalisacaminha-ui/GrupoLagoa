@@ -56,6 +56,19 @@
   footer { text-align:center; margin-top:40px; font-size:.85rem; color:#778; }
     .cta-form { display:block; width:max-content; max-width:90%; margin:8px auto 4px; background:#f7b500; color:#1f2d3d; text-decoration:none; padding:16px 34px; border-radius:28px; font-weight:800; font-size:1.12rem; text-align:center; box-shadow:0 6px 18px rgba(247,181,0,.45); transition:transform .15s; }
     .cta-form:hover { transform:translateY(-3px); }
+
+.hr-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:18px; }
+.hr-trilha { background:#fff; border-radius:14px; padding:16px 12px; box-shadow:0 4px 14px rgba(0,0,0,.08); text-align:center; border-top:5px solid #1565d8; }
+.hr-trilha .nome { font-size:.8rem; color:#556; min-height:48px; display:flex; align-items:center; justify-content:center; line-height:1.25; }
+.hr-trilha .val { font-size:1.35rem; font-weight:800; color:#0a3d91; margin-top:6px; }
+.hr-total { background:linear-gradient(135deg,#0a3d91,#1565d8); border-top:none; }
+.hr-total .nome, .hr-total .val { color:#fff; }
+.hr-eq { background:#fff; border-radius:16px; padding:20px; text-align:center; box-shadow:0 4px 14px rgba(0,0,0,.08); border-top:6px solid #f7b500; }
+.hr-eq h4 { color:#0a3d91; margin:6px 0 12px; font-size:1.1rem; }
+.hr-eq .horas { font-size:1.7rem; font-weight:800; color:#0a3d91; }
+.hr-eq .sub { font-size:.85rem; color:#556; margin-top:8px; line-height:1.6; }
+.hr-eq .sub b { color:#f7b500; }
+.hr-sub { color:#0a3d91; text-align:center; font-size:1.15rem; margin:18px 0 14px; }
 </style>
 </head>
 <body>
@@ -119,6 +132,24 @@
         </table>
         <button class="atualizar" onclick="carregarRanking()">🔄 Atualizar ranking</button>
         <div class="atu-info" id="atu-info"></div>
+      </div>
+    </section>
+
+    <section id="sec-horas">
+      <h2>⏱️ Horas de Treinamento</h2>
+      <p class="obs" id="hr-atu" style="margin-bottom:18px">Carregando dados...</p>
+      <h3 class="hr-sub">🧩 Por trilha</h3>
+      <div class="hr-grid" id="hr-trilhas"></div>
+      <h3 class="hr-sub">🏅 Por equipe</h3>
+      <div class="equipes" id="hr-equipes"></div>
+      <h3 class="hr-sub">📅 Prazo</h3>
+      <div class="nums" id="hr-prazo"></div>
+      <h3 class="hr-sub">🙋 Por pessoa</h3>
+      <div class="rank-box">
+        <table>
+          <thead><tr><th>#</th><th>Nome</th><th>Equipe</th><th>Horas</th><th class="xp">XP</th><th style="text-align:right">Cert.</th></tr></thead>
+          <tbody id="hr-pessoas"><tr><td colspan="6" style="text-align:center;color:#889">Carregando...</td></tr></tbody>
+        </table>
       </div>
     </section>
 
@@ -279,7 +310,63 @@
       });
   }
 
-  carregarRanking();
+  
+var CSV_HORAS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQiwYXj0Jb9aQinwIcXMT1aPHFlQ-cmGSJOCJIZ2g0jDuhggoAmFkW7iH0sUTA2928yH6ekq475VT_2/pub?gid=51640646&single=true&output=csv';
+
+function parseCSVHoras(text){
+  var rows=[], row=[], cell="", q=false;
+  for(var i=0;i<text.length;i++){ var ch=text[i];
+    if(q){ if(ch==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; } else cell+=ch; }
+    else { if(ch==='"')q=true; else if(ch===','){row.push(cell);cell="";} else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell="";} else if(ch==='\r'){} else cell+=ch; }
+  }
+  row.push(cell); rows.push(row); return rows;
+}
+function findRowHoras(rows, txt){ for(var i=0;i<rows.length;i++){ if(String(rows[i][0]||"").toUpperCase().indexOf(txt)>=0) return i; } return -1; }
+function escHoras(s){ return String(s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+
+function carregarHoras(){
+  fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(csv){
+    var rows = parseCSVHoras(csv);
+    var atuI = findRowHoras(rows,"ATUALIZADO");
+    document.getElementById('hr-atu').textContent = atuI>=0 ? ("Atualizado em " + (rows[atuI][1]||"")) : "";
+
+    var tI = findRowHoras(rows,"HORAS POR TRILHA");
+    var totI = findRowHoras(rows,"TOTAL GERAL");
+    var html="";
+    for(var i=tI+2;i<totI;i++){ var nome=String(rows[i][0]||"").trim(); var val=String(rows[i][1]||"").trim(); if(!nome) continue;
+      html += '<div class="hr-trilha"><div class="nome">'+escHoras(nome)+'</div><div class="val">'+escHoras(val)+'</div></div>'; }
+    if(totI>=0){ html += '<div class="hr-trilha hr-total"><div class="nome">TOTAL GERAL</div><div class="val">'+escHoras(String(rows[totI][1]||"").trim())+'</div></div>'; }
+    document.getElementById('hr-trilhas').innerHTML = html;
+
+    var eI = findRowHoras(rows,"POR EQUIPE");
+    var pzI = findRowHoras(rows,"PRAZO");
+    var icones={ "Bate-Metas":"🏃","Desbravadores":"🧭","Desenrolados":"⚡" };
+    var eh="";
+    for(var j=eI+2;j<pzI;j++){ var en=String(rows[j][0]||"").replace(/[^A-Za-zÀ-ÿ\- ]/g,"").trim(); var eHoras=String(rows[j][1]||"").trim(); if(!en) continue;
+      var xp=String(rows[j][2]||"").trim(), xph=String(rows[j][3]||"").trim(), cert=String(rows[j][4]||"").trim();
+      var ic=icones[en]||"🏅";
+      eh += '<div class="hr-eq"><div class="ico">'+ic+'</div><h4>'+escHoras(en)+'</h4><div class="horas">'+escHoras(eHoras)+'</div><div class="sub">⭐ <b>'+escHoras(xp)+' XP</b> &nbsp;•&nbsp; '+escHoras(xph)+' XP/hora<br>📜 '+escHoras(cert)+' certificados</div></div>'; }
+    document.getElementById('hr-equipes').innerHTML = eh;
+
+    var ppI = findRowHoras(rows,"POR PESSOA");
+    var getP=function(label){ for(var k=pzI+1;k<ppI;k++){ if(String(rows[k][0]||"").toUpperCase().indexOf(label)>=0) return String(rows[k][1]||"").trim(); } return ""; };
+    var dias=getP("DIAS FALTANTES"), ini=getP("INÍCIO")||getP("INICIO"), fim=getP("TÉRMINO")||getP("TERMINO");
+    document.getElementById('hr-prazo').innerHTML =
+      '<div class="num"><div class="big">'+escHoras(dias.replace(/\D/g,''))+'</div><div class="lbl">dias faltantes</div></div>'+
+      '<div class="num"><div class="big">'+escHoras(ini)+'</div><div class="lbl">início</div></div>'+
+      '<div class="num"><div class="big">'+escHoras(fim)+'</div><div class="lbl">término</div></div>';
+
+    var ph="", rank=0;
+    for(var m=ppI+2;m<rows.length;m++){ var pn=String(rows[m][0]||"").trim(); if(!pn) continue;
+      rank++; var peq=String(rows[m][1]||"").trim(), ph2=String(rows[m][2]||"").trim(), pxp=String(rows[m][3]||"").trim(), pcert=String(rows[m][4]||"").trim();
+      var med = rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":rank;
+      ph += '<tr><td>'+med+'</td><td>'+escHoras(pn)+'</td><td>'+escHoras(peq)+'</td><td>'+escHoras(ph2)+'</td><td class="xp">'+escHoras(pxp)+'</td><td style="text-align:right">'+escHoras(pcert)+'</td></tr>'; }
+    document.getElementById('hr-pessoas').innerHTML = ph || '<tr><td colspan="6" style="text-align:center;color:#889">Sem dados.</td></tr>';
+  }).catch(function(e){ document.getElementById('hr-atu').textContent = "Erro ao carregar horas."; });
+}
+carregarHoras();
+
+carregarRanking();
 </script>
 </body>
 </html>
