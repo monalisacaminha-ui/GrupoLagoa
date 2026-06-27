@@ -69,6 +69,12 @@
 .hr-eq .sub { font-size:.85rem; color:#556; margin-top:8px; line-height:1.6; }
 .hr-eq .sub b { color:#f7b500; }
 .hr-sub { color:#0a3d91; text-align:center; font-size:1.15rem; margin:18px 0 14px; }
+
+.num-destaque { border:2px solid #f7b500; box-shadow:0 6px 18px rgba(247,181,0,.25); }
+.num-destaque .big { color:#f7b500; }
+.pb-track { background:#eef2f8; border-radius:20px; height:26px; overflow:hidden; box-shadow:inset 0 1px 3px rgba(0,0,0,.08); }
+.pb-fill { background:linear-gradient(90deg,#1565d8,#0a3d91); color:#fff; height:100%; display:flex; align-items:center; justify-content:flex-end; padding-right:12px; font-size:.8rem; font-weight:700; border-radius:20px; min-width:34px; transition:width .6s; }
+.pb-lbl { text-align:center; font-size:.85rem; color:#556; margin-top:8px; }
 </style>
 </head>
 <body>
@@ -91,9 +97,9 @@
         <div class="card"><div class="ico">📈</div><h3>Se qualifique</h3><p>O objetivo é se qualificar cada vez mais — todo mundo cresce.</p></div>
       </div>
       <div class="nums" style="margin-top:18px">
-<div class="num"><div class="big">13/06</div><div class="lbl">Início — 1ª etapa do 2º PDL de 2026</div></div>
-<div class="num"><div class="big">76</div><div class="lbl">dias de desafio</div></div>
         <div class="num"><div class="big">3</div><div class="lbl">equipes mistas competindo</div></div>
+        <div class="num"><div class="big">7</div><div class="lbl">trilhas de conhecimento</div></div>
+        <div class="num"><div class="big">57</div><div class="lbl">cursos disponíveis</div></div>
       </div>
       <div class="marcas">
         <div class="marca"><img src="logo-unilagoa.png" alt="UniLagoa"></div>
@@ -103,16 +109,7 @@
       </div>
     </section>
 
-    <section>
-      <h2>👥 As Equipes</h2>
-      <div class="equipes">
-        <div class="eq"><div class="ico">🧭</div><h3>Desbravadores</h3><div class="xp" id="card-Desbravadores">—</div></div>
-        <div class="eq"><div class="ico">⚡</div><h3>Desenrolados</h3><div class="xp" id="card-Desenrolados">—</div></div>
-        <div class="eq"><div class="ico">🏃</div><h3>Bate-Metas</h3><div class="xp" id="card-Bate-Metas">—</div></div>
-      </div>
-    </section>
-
-    <section>
+        <section>
       <h2>✅ Registrar conclusão</h2>
       <p class="obs">Concluiu um curso? Registre aqui! Envie <strong>um formulário por curso</strong>, use sempre o <strong>mesmo nome completo</strong>, escolha sua equipe e o curso e <strong>anexe o certificado</strong> — sem ele os pontos não valem. 👀</p>
       <a class="cta-form" href="https://forms.gle/tDDzeWEuLuFU9qqU9" target="_blank" rel="noopener">📝 Registrar conclusão / Enviar certificado</a>
@@ -138,12 +135,13 @@
     <section id="sec-horas">
       <h2>⏱️ Horas de Treinamento</h2>
       <p class="obs" id="hr-atu" style="margin-bottom:18px">Carregando dados...</p>
-      <h3 class="hr-sub">🧩 Por trilha</h3>
-      <div class="hr-grid" id="hr-trilhas"></div>
       <h3 class="hr-sub">🏅 Por equipe</h3>
       <div class="equipes" id="hr-equipes"></div>
+      <h3 class="hr-sub">🧩 Por trilha</h3>
+      <div class="hr-grid" id="hr-trilhas"></div>
       <h3 class="hr-sub">📅 Prazo</h3>
       <div class="nums" id="hr-prazo"></div>
+      <div id="hr-progresso" style="margin-top:14px"></div>
       <h3 class="hr-sub">🙋 Por pessoa</h3>
       <div class="rank-box">
         <table>
@@ -345,16 +343,21 @@ function carregarHoras(){
     for(var j=eI+2;j<pzI;j++){ var en=String(rows[j][0]||"").replace(/[^A-Za-zÀ-ÿ\- ]/g,"").trim(); var eHoras=String(rows[j][1]||"").trim(); if(!en) continue;
       var xp=String(rows[j][2]||"").trim(), xph=String(rows[j][3]||"").trim(), cert=String(rows[j][4]||"").trim();
       var ic=icones[en]||"🏅";
-      eh += '<div class="hr-eq"><div class="ico">'+ic+'</div><h4>'+escHoras(en)+'</h4><div class="horas">'+escHoras(eHoras)+'</div><div class="sub">⭐ <b>'+escHoras(xp)+' XP</b> &nbsp;•&nbsp; '+escHoras(xph)+' XP/hora<br>📜 '+escHoras(cert)+' certificados</div></div>'; }
+      eh += '<div class="hr-eq"><div class="ico">'+ic+'</div><h4>'+escHoras(en)+'</h4><div class="xpbig">'+escHoras(xp)+' XP</div><div class="sub">⏱️ <b>'+escHoras(eHoras)+'</b> horas &nbsp;•&nbsp; '+escHoras(xph)+' XP/hora<br>📜 '+escHoras(cert)+' certificados</div></div>'; }
     document.getElementById('hr-equipes').innerHTML = eh;
 
     var ppI = findRowHoras(rows,"POR PESSOA");
     var getP=function(label){ for(var k=pzI+1;k<ppI;k++){ if(String(rows[k][0]||"").toUpperCase().indexOf(label)>=0) return String(rows[k][1]||"").trim(); } return ""; };
     var dias=getP("DIAS FALTANTES"), ini=getP("INÍCIO")||getP("INICIO"), fim=getP("TÉRMINO")||getP("TERMINO");
+    var diasN = parseInt(String(dias).replace(/\D/g,""),10)||0;
+    var durTxt = getP("DURA"); var durN = parseInt(String(durTxt).replace(/\D/g,""),10)||76;
+    var passados = Math.max(0, durN - diasN); var pct = durN>0 ? Math.min(100, Math.round(passados/durN*100)) : 0;
     document.getElementById('hr-prazo').innerHTML =
-      '<div class="num"><div class="big">'+escHoras(dias.replace(/\D/g,''))+'</div><div class="lbl">dias faltantes</div></div>'+
-      '<div class="num"><div class="big">'+escHoras(ini)+'</div><div class="lbl">início</div></div>'+
-      '<div class="num"><div class="big">'+escHoras(fim)+'</div><div class="lbl">término</div></div>';
+      '<div class="num"><div class="big">'+escHoras(ini)+'</div><div class="lbl">📅 início</div></div>'+
+      '<div class="num num-destaque"><div class="big">'+escHoras(String(diasN))+'</div><div class="lbl">⏳ dias faltantes</div></div>'+
+      '<div class="num"><div class="big">'+escHoras(fim)+'</div><div class="lbl">🏁 término</div></div>';
+    var pb = document.getElementById('hr-progresso');
+    if(pb){ pb.innerHTML = '<div class="pb-track"><div class="pb-fill" style="width:'+pct+'%">'+pct+'%</div></div><div class="pb-lbl">'+passados+' de '+durN+' dias percorridos</div>'; }
 
     var ph="", rank=0;
     for(var m=ppI+2;m<rows.length;m++){ var pn=String(rows[m][0]||"").trim(); if(!pn) continue;
