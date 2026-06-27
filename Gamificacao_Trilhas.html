@@ -61,6 +61,8 @@
 .hr-trilha { background:#fff; border-radius:14px; padding:16px 12px; box-shadow:0 4px 14px rgba(0,0,0,.08); text-align:center; border-top:5px solid #1565d8; }
 .hr-trilha .nome { font-size:.8rem; color:#556; min-height:48px; display:flex; align-items:center; justify-content:center; line-height:1.25; }
 .hr-trilha .val { font-size:1.35rem; font-weight:800; color:#0a3d91; margin-top:6px; }
+.hr-trilha .hr-cert { font-size:.78rem; color:#1565d8; font-weight:600; margin-top:8px; padding-top:7px; border-top:1px solid #eef1f7; }
+.hr-total .hr-cert { color:#cfe0ff; border-top-color:rgba(255,255,255,.25); }
 .hr-total { background:linear-gradient(135deg,#0a3d91,#1565d8); border-top:none; }
 .hr-total .nome, .hr-total .val { color:#fff; }
 .hr-eq { background:#fff; border-radius:16px; padding:20px; text-align:center; box-shadow:0 4px 14px rgba(0,0,0,.08); border-top:6px solid #f7b500; }
@@ -315,9 +317,9 @@ function carregarHoras(){
     var tI = findRowHoras(rows,"HORAS POR TRILHA");
     var totI = findRowHoras(rows,"TOTAL GERAL");
     var html="";
-    for(var i=tI+2;i<totI;i++){ var nome=String(rows[i][0]||"").trim(); var val=String(rows[i][1]||"").trim(); if(!nome) continue;
-      html += '<div class="hr-trilha"><div class="nome">'+escHoras(nome)+'</div><div class="val">'+escHoras(val)+'</div></div>'; }
-    if(totI>=0){ html += '<div class="hr-trilha hr-total"><div class="nome">TOTAL GERAL</div><div class="val">'+escHoras(String(rows[totI][1]||"").trim())+'</div></div>'; }
+    for(var i=tI+2;i<totI;i++){ var nome=String(rows[i][0]||"").trim(); var val=String(rows[i][1]||"").trim(); var cert=String(rows[i][2]||"").trim(); if(!nome) continue;
+      html += '<div class="hr-trilha"><div class="nome">'+escHoras(nome)+'</div><div class="val">'+escHoras(val)+'</div>'+(cert?('<div class="hr-cert">📜 '+escHoras(cert)+' certificados</div>'):'')+'</div>'; }
+    if(totI>=0){ var certTot=String(rows[totI][2]||"").trim(); html += '<div class="hr-trilha hr-total"><div class="nome">TOTAL GERAL</div><div class="val">'+escHoras(String(rows[totI][1]||"").trim())+'</div>'+(certTot?('<div class="hr-cert">📜 '+escHoras(certTot)+' certificados</div>'):'')+'</div>'; }
     document.getElementById('hr-trilhas').innerHTML = html;
 
     var eI = findRowHoras(rows,"POR EQUIPE");
