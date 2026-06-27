@@ -115,23 +115,6 @@
       <a class="cta-form" href="https://forms.gle/tDDzeWEuLuFU9qqU9" target="_blank" rel="noopener">📝 Registrar conclusão / Enviar certificado</a>
     </section>
 
-    <section>
-      <h2>📊 Ranking ao Vivo</h2>
-      <div class="rank-box">
-        <div class="tabs">
-          <button class="tab ativo" id="tab-time" onclick="trocarAba('time')">🏅 Por time</button>
-          <button class="tab" id="tab-trilha" onclick="trocarAba('trilha')">🧩 Por trilha</button>
-          <button class="tab" id="tab-pessoa" onclick="trocarAba('pessoa')">🙋 Por pessoa</button>
-        </div>
-        <table>
-          <thead><tr><th>#</th><th>Nome</th><th class="xp">XP</th></tr></thead>
-          <tbody id="rank-corpo"><tr><td colspan="3" style="text-align:center;color:#889">Carregando ranking...</td></tr></tbody>
-        </table>
-        <button class="atualizar" onclick="carregarRanking()">🔄 Atualizar ranking</button>
-        <div class="atu-info" id="atu-info"></div>
-      </div>
-    </section>
-
     <section id="sec-horas">
       <h2>⏱️ Horas de Treinamento</h2>
       <p class="obs" id="hr-atu" style="margin-bottom:18px">Carregando dados...</p>
@@ -326,7 +309,8 @@ function carregarHoras(){
   fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(csv){
     var rows = parseCSVHoras(csv);
     var atuI = findRowHoras(rows,"ATUALIZADO");
-    document.getElementById('hr-atu').textContent = atuI>=0 ? ("Atualizado em " + (rows[atuI][1]||"")) : "";
+    var pendV = (function(){var p=findRowHoras(rows,"PENDENTE"); return p>=0?String(rows[p][1]||"").trim():"";})();
+    document.getElementById('hr-atu').innerHTML = (atuI>=0?("🕒 Atualizado em <b>"+escHoras(rows[atuI][1]||"")+"</b>"):"") + (pendV?(' &nbsp;•&nbsp; ⏳ <b>'+escHoras(pendV)+'</b> curso(s) pendente(s) de validação'):"");
 
     var tI = findRowHoras(rows,"HORAS POR TRILHA");
     var totI = findRowHoras(rows,"TOTAL GERAL");
@@ -369,7 +353,6 @@ function carregarHoras(){
 }
 carregarHoras();
 
-carregarRanking();
 </script>
 </body>
 </html>
