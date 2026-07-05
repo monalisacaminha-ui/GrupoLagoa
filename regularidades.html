@@ -34,9 +34,9 @@
   .filtro-item select, .filtro-item input { padding: 6px; border-radius: 6px; border: 1px solid #ccc; min-width: 160px; font-size: 0.95em; }
   #limparBtn { padding: 8px 14px; border-radius: 6px; border: none; background: #7f8c8d; color: #fff; cursor: pointer; height: 34px; font-size: 0.82em; }
   #limparBtn:hover { background: #6c7a7a; }
-  .tabela-wrap { background: #fff; border-radius: 8px; overflow: auto; max-height: 620px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
-  table { border-collapse: collapse; width: 100%; font-size: 0.82em; }
-  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #eee; white-space: nowrap; }
+  .tabela-wrap { background: #fff; border-radius: 8px; overflow-y: auto; overflow-x: hidden; max-height: 620px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.82em; table-layout: fixed; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #eee; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; vertical-align: top; }
   th { background: #173a5e; color: #fff; position: sticky; top: 0; cursor: pointer; user-select: none; }
   th:hover { background: #1f4a72; }
   tr:hover td { background: #f0f4f8; }
