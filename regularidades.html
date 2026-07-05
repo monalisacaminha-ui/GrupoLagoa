@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Regularidade — Grupo Lagoa</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f4f6f8; color: #1c2b39; }
+  header { background: linear-gradient(90deg,#173a5e,#25547f); color: #fff; padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  header h1 { margin: 0; font-size: 1.3em; }
+  header .sub { font-size: 0.8em; opacity: 0.85; }
+  #atualizarBtn { background: #fff; color: #173a5e; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85em; }
+  #atualizarBtn:hover { background: #e8eef4; }
+  .container { padding: 20px 28px; }
+  #msgErro { background: #fdecea; color: #611a15; padding: 12px 18px; border-radius: 6px; margin-bottom: 18px; display: none; }
+  .cards { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+  .card { background: #fff; border-radius: 8px; padding: 14px 18px; min-width: 150px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); border-left: 6px solid #999; flex: 1; }
+  .card.total { border-left-color: #25547f; }
+  .card.atrasado { border-left-color: #c0392b; }
+  .card.pendente { border-left-color: #e67e22; }
+  .card.concluido { border-left-color: #27ae60; }
+  .card.semprazo { border-left-color: #7f8c8d; }
+  .card .num { font-size: 1.7em; font-weight: bold; }
+  .card .label { font-size: 0.8em; color: #555; }
+  .lojas { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .loja-chip { background: #fff; border: 1px solid #d0d7de; border-radius: 20px; padding: 6px 12px; cursor: pointer; font-size: 0.8em; display: flex; align-items: center; gap: 6px; }
+  .loja-chip:hover { border-color: #173a5e; }
+  .loja-chip.active { background: #173a5e; color: #fff; border-color: #173a5e; }
+  .loja-chip .badge { background: #c0392b; color: #fff; border-radius: 10px; padding: 1px 7px; font-size: 0.78em; }
+  .loja-chip.active .badge { background: #fff; color: #c0392b; }
+  .filtros { background: #fff; padding: 14px 16px; border-radius: 8px; margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  .filtro-item { display: flex; flex-direction: column; font-size: 0.78em; color: #444; }
+  .filtro-item select, .filtro-item input { padding: 6px; border-radius: 6px; border: 1px solid #ccc; min-width: 160px; font-size: 0.95em; }
+  #limparBtn { padding: 8px 14px; border-radius: 6px; border: none; background: #7f8c8d; color: #fff; cursor: pointer; height: 34px; font-size: 0.82em; }
+  #limparBtn:hover { background: #6c7a7a; }
+  .tabela-wrap { background: #fff; border-radius: 8px; overflow: auto; max-height: 620px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.82em; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #eee; white-space: nowrap; }
+  th { background: #173a5e; color: #fff; position: sticky; top: 0; cursor: pointer; user-select: none; }
+  th:hover { background: #1f4a72; }
+  tr:hover td { background: #f0f4f8; }
+  .risco-critico { color: #7b0000; font-weight: bold; }
+  .risco-alto { color: #c0392b; font-weight: bold; }
+  .risco-medio { color: #e67e22; }
+  .risco-baixo { color: #27ae60; }
+  .risco-outro { color: #7f8c8d; }
+  .badge-atrasado { background: #c0392b; color: #fff; padding: 2px 9px; border-radius: 10px; font-size: 0.85em; }
+  .badge-semprazo { background: #95a5a6; color: #fff; padding: 2px 9px; border-radius: 10px; font-size: 0.85em; }
+  .situacao-Pendente { color: #e67e22; font-weight: 600; }
+  .situacao-Concluido { color: #27ae60; font-weight: 600; }
+  .situacao-Sem { color: #7f8c8d; }
+  footer { text-align: center; padding: 16px; color: #888; font-size: 0.78em; }
+  .contador { font-size: 0.8em; color: #555; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Painel de Regularidade — Grupo Lagoa</h1>
+    <div class="sub">Inspeções de Segurança do Trabalho e Regularidade Documental</div>
+  </div>
+  <button id="atualizarBtn">Atualizar dados</button>
+</header>
+<div class="container">
+  <div id="msgErro"></div>
+  <div class="cards" id="cards"></div>
+  <div class="lojas" id="lojas"></div>
+  <div class="filtros">
+    <div class="filtro-item"><label>Loja / Unidade</label><select id="fLoja"><option value="">Todas</option></select></div>
+    <div class="filtro-item"><label>Categoria</label><select id="fCategoria"><option value="">Todas</option></select></div>
+    <div class="filtro-item"><label>Periodicidade</label><select id="fPeriodicidade"><option value="">Todas</option></select></div>
+    <div class="filtro-item"><label>Fonte</label><select id="fFonte"><option value="">Todas</option></select></div>
+    <div class="filtro-item"><label>Situação</label><select id="fSituacao"><option value="">Todas</option></select></div>
+    <div class="filtro-item"><label>Status do Prazo</label><select id="fStatusPrazo"><option value="">Todos</option></select></div>
+    <div class="filtro-item"><label>Buscar</label><input type="text" id="fBusca" placeholder="item, responsável, norma..."></div>
+    <button id="limparBtn">Limpar filtros</button>
+  </div>
+  <div class="contador" id="contador"></div>
+  <div class="tabela-wrap">
+    <table id="tabela">
+      <thead><tr id="linhaCabecalho"></tr></thead>
+      <tbody id="corpoTabela"></tbody>
+    </table>
+  </div>
+</div>
+<footer>Dados carregados em tempo real da planilha "Controle_Inspecoes_Seguranca_GrupoLagoa" (Google Sheets). Grupo Lagoa.</footer>
+<script>
+(function(){
+  var SHEET_ID = '1_lTFo4XcNpHBYyBuwdQoesOLFhjeKlg_V5GAxdMWXAk';
+  var GID = '1343646691';
+  var CSV_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + GID;
+  var COLUNAS = [
+    {chave:'loja', rotulo:'Loja'},
+    {chave:'item', rotulo:'Item Verificado'},
+    {chave:'categoria', rotulo:'Categoria'},
+    {chave:'periodicidade', rotulo:'Periodicidade'},
+    {chave:'grauRisco', rotulo:'Grau de Risco'},
+    {chave:'norma', rotulo:'Norma / Referência'},
+    {chave:'responsavel', rotulo:'Responsável'},
+    {chave:'situacao', rotulo:'Situação'},
+    {chave:'statusPrazo', rotulo:'Status do Prazo'},
+    {chave:'prazo', rotulo:'Prazo'},
+    {chave:'dataConclusao', rotulo:'Data de Conclusão'},
+    {chave:'observacoes', rotulo:'Observações'}
+  ];
+  var dadosOriginais = [];
+  var filtroLoja = '';
+  var sortCol = null;
+  var sortAsc = true;
+
+  function parseCSV(text){
+    var rows = []; var row = []; var field = ''; var inQuotes = false;
+    for (var i=0;i<text.length;i++){
+      var c = text.charAt(i);
+      if (inQuotes){
+        if (c === '"'){
+          if (text.charAt(i+1) === '"'){ field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += c; }
+      } else {
+        if (c === '"'){ inQuotes = true; }
+        else if (c === ','){ row.push(field); field = ''; }
+        else if (c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c === '\r'){ }
+        else { field += c; }
+      }
+    }
+    if (field.length > 0 || row.length > 0){ row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function classeRisco(v){
+    v = v || '';
+    if (v.indexOf('Crítico') !== -1) return 'risco-critico';
+    if (v.indexOf('Alto') !== -1) return 'risco-alto';
+    if (v.indexOf('Médio') !== -1 || v.indexOf('Medio') !== -1) return 'risco-medio';
+    if (v.indexOf('Baixo') !== -1 || v.indexOf('Leve') !== -1) return 'risco-baixo';
+    return 'risco-outro';
+  }
+
+  function classeSituacao(v){
+    if (v === 'Pendente') return 'situacao-Pendente';
+    if (v === 'Concluído') return 'situacao-Concluido';
+    return 'situacao-Sem';
+  }
+
+  function unicos(arr, chave){
+    var set = {};
+    var out = [];
+    for (var i=0;i<arr.length;i++){
+      var v = arr[i][chave];
+      if (v && !set[v]){ set[v] = true; out.push(v); }
+    }
+    out.sort();
+    return out;
+  }
+
+  function popularSelect(id, valores){
+    var sel = document.getElementById(id);
+    var atual = sel.value;
+    while (sel.options.length > 1){ sel.remove(1); }
+    for (var i=0;i<valores.length;i++){
+      var opt = document.createElement('option');
+      opt.value = valores[i];
+      opt.textContent = valores[i];
+      sel.appendChild(opt);
+    }
+    sel.value = atual;
+  }
+
+  function popularFiltros(){
+    popularSelect('fLoja', unicos(dadosOriginais, 'loja'));
+    popularSelect('fCategoria', unicos(dadosOriginais, 'categoria'));
+    popularSelect('fPeriodicidade', unicos(dadosOriginais, 'periodicidade'));
+    popularSelect('fFonte', unicos(dadosOriginais, 'fonte'));
+    popularSelect('fSituacao', unicos(dadosOriginais, 'situacao'));
+    popularSelect('fStatusPrazo', unicos(dadosOriginais, 'statusPrazo'));
+  }
+
+  function obterFiltrados(){
+    var loja = document.getElementById('fLoja').value;
+    var categoria = document.getElementById('fCategoria').value;
+    var periodicidade = document.getElementById('fPeriodicidade').value;
+    var fonte = document.getElementById('fFonte').value;
+    var situacao = document.getElementById('fSituacao').value;
+    var statusPrazo = document.getElementById('fStatusPrazo').value;
+    var busca = document.getElementById('fBusca').value.toLowerCase();
+    return dadosOriginais.filter(function(d){
+      if (filtroLoja && d.loja !== filtroLoja) return false;
+      if (loja && d.loja !== loja) return false;
+      if (categoria && d.categoria !== categoria) return false;
+      if (periodicidade && d.periodicidade !== periodicidade) return false;
+      if (fonte && d.fonte !== fonte) return false;
+      if (situacao && d.situacao !== situacao) return false;
+      if (statusPrazo && d.statusPrazo !== statusPrazo) return false;
+      if (busca){
+        var alvo = (d.item + ' ' + d.responsavel + ' ' + d.norma + ' ' + d.observacoes).toLowerCase();
+        if (alvo.indexOf(busca) === -1) return false;
+      }
+      return true;
+    });
+  }
+
+  function renderCards(dados){
+    var total = dados.length;
+    var atrasados = dados.filter(function(d){ return d.statusPrazo === 'ATRASADO'; }).length;
+    var pendentes = dados.filter(function(d){ return d.situacao === 'Pendente'; }).length;
+    var concluidos = dados.filter(function(d){ return d.situacao === 'Concluído'; }).length;
+    var semPrazo = dados.filter(function(d){ return d.statusPrazo === 'Sem prazo definido'; }).length;
+    var html = '';
+    html += '<div class="card total"><div class="num">' + total + '</div><div class="label">Total de Itens</div></div>';
+    html += '<div class="card atrasado"><div class="num">' + atrasados + '</div><div class="label">Atrasados</div></div>';
+    html += '<div class="card pendente"><div class="num">' + pendentes + '</div><div class="label">Pendentes</div></div>';
+    html += '<div class="card concluido"><div class="num">' + concluidos + '</div><div class="label">Concluídos</div></div>';
+    html += '<div class="card semprazo"><div class="num">' + semPrazo + '</div><div class="label">Sem Prazo Definido</div></div>';
+    document.getElementById('cards').innerHTML = html;
+  }
+
+  function renderLojas(){
+    var lojas = unicos(dadosOriginais, 'loja');
+    var html = '';
+    for (var i=0;i<lojas.length;i++){
+      var loja = lojas[i];
+      var itensLoja = dadosOriginais.filter(function(d){ return d.loja === loja; });
+      var atrasadosLoja = itensLoja.filter(function(d){ return d.statusPrazo === 'ATRASADO'; }).length;
+      var ativa = (filtroLoja === loja) ? ' active' : '';
+      html += '<div class="loja-chip' + ativa + '" data-loja="' + loja.replace(/"/g,'&quot;') + '">' + loja + ' (' + itensLoja.length + ')';
+      if (atrasadosLoja > 0){ html += ' <span class="badge">' + atrasadosLoja + '</span>'; }
+      html += '</div>';
+    }
+    document.getElementById('lojas').innerHTML = html;
+    var chips = document.querySelectorAll('.loja-chip');
+    for (var j=0;j<chips.length;j++){
+      chips[j].addEventListener('click', function(){
+        var l = this.getAttribute('data-loja');
+        filtroLoja = (filtroLoja === l) ? '' : l;
+        renderTudo();
+      });
+    }
+  }
+
+  function renderCabecalho(){
+    var html = '';
+    for (var i=0;i<COLUNAS.length;i++){
+      var seta = '';
+      if (sortCol === COLUNAS[i].chave){ seta = sortAsc ? ' ▲' : ' ▼'; }
+      html += '<th data-chave="' + COLUNAS[i].chave + '">' + COLUNAS[i].rotulo + seta + '</th>';
+    }
+    document.getElementById('linhaCabecalho').innerHTML = html;
+    var ths = document.querySelectorAll('#linhaCabecalho th');
+    for (var j=0;j<ths.length;j++){
+      ths[j].addEventListener('click', function(){
+        var chave = this.getAttribute('data-chave');
+        if (sortCol === chave){ sortAsc = !sortAsc; } else { sortCol = chave; sortAsc = true; }
+        renderTudo();
+      });
+    }
+  }
+
+  function escapeHtml(v){
+    v = (v === undefined || v === null) ? '' : String(v);
+    return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderTabela(dados){
+    var linhas = dados.slice();
+    if (sortCol){
+      linhas.sort(function(a,b){
+        var va = (a[sortCol] || '').toString().toLowerCase();
+        var vb = (b[sortCol] || '').toString().toLowerCase();
+        if (va < vb) return sortAsc ? -1 : 1;
+        if (va > vb) return sortAsc ? 1 : -1;
+        return 0;
+      });
+    }
+    var html = '';
+    for (var i=0;i<linhas.length;i++){
+      var d = linhas[i];
+      html += '<tr>';
+      html += '<td>' + escapeHtml(d.loja) + '</td>';
+      html += '<td>' + escapeHtml(d.item) + '</td>';
+      html += '<td>' + escapeHtml(d.categoria) + '</td>';
+      html += '<td>' + escapeHtml(d.periodicidade) + '</td>';
+      html += '<td class="' + classeRisco(d.grauRisco) + '">' + escapeHtml(d.grauRisco) + '</td>';
+      html += '<td>' + escapeHtml(d.norma) + '</td>';
+      html += '<td>' + escapeHtml(d.responsavel) + '</td>';
+      html += '<td class="' + classeSituacao(d.situacao) + '">' + escapeHtml(d.situacao) + '</td>';
+      if (d.statusPrazo === 'ATRASADO'){
+        html += '<td><span class="badge-atrasado">ATRASADO</span></td>';
+      } else if (d.statusPrazo === 'Sem prazo definido'){
+        html += '<td><span class="badge-semprazo">Sem prazo</span></td>';
+      } else {
+        html += '<td>' + escapeHtml(d.statusPrazo) + '</td>';
+      }
+      html += '<td>' + escapeHtml(d.prazo) + '</td>';
+      html += '<td>' + escapeHtml(d.dataConclusao) + '</td>';
+      html += '<td>' + escapeHtml(d.observacoes) + '</td>';
+      html += '</tr>';
+    }
+    document.getElementById('corpoTabela').innerHTML = html;
+    document.getElementById('contador').textContent = linhas.length + ' item(ns) exibido(s)';
+  }
+
+  function renderTudo(){
+    renderLojas();
+    var filtrados = obterFiltrados();
+    renderCards(filtrados);
+    renderCabecalho();
+    renderTabela(filtrados);
+  }
+
+  function limparFiltros(){
+    document.getElementById('fLoja').value = '';
+    document.getElementById('fCategoria').value = '';
+    document.getElementById('fPeriodicidade').value = '';
+    document.getElementById('fFonte').value = '';
+    document.getElementById('fSituacao').value = '';
+    document.getElementById('fStatusPrazo').value = '';
+    document.getElementById('fBusca').value = '';
+    filtroLoja = '';
+    renderTudo();
+  }
+
+  function carregarDados(){
+    var msgErro = document.getElementById('msgErro');
+    msgErro.style.display = 'none';
+    fetch(CSV_URL, {cache:'no-store'}).then(function(res){
+      if (!res.ok) throw new Error('status ' + res.status);
+      return res.text();
+    }).then(function(text){
+      var rows = parseCSV(text);
+      var dados = [];
+      for (var i=1;i<rows.length;i++){
+        var r = rows[i];
+        if (!r || r.length < 2 || !r[0]) continue;
+        var obj = {
+          id: r[0], loja: r[1], numLoja: r[2], dataInspecao: r[3], fonte: r[4],
+          item: r[5], grauRisco: r[6], norma: r[7], responsavel: r[8], prazo: r[9],
+          situacao: r[10], statusPrazo: r[11], dataConclusao: r[12], observacoes: r[13],
+          itemPadrao: r[14], categoria: r[15], periodicidade: r[16]
+        };
+        if (obj.loja === 'Catálogo (a replicar por loja)') continue;
+        dados.push(obj);
+      }
+      dadosOriginais = dados;
+      popularFiltros();
+      renderTudo();
+    }).catch(function(e){
+      msgErro.textContent = 'Não foi possível carregar os dados da planilha. Verifique se o compartilhamento está definido como "Qualquer pessoa com o link". Detalhe: ' + e.message;
+      msgErro.style.display = 'block';
+    });
+  }
+
+  document.getElementById('atualizarBtn').addEventListener('click', carregarDados);
+  document.getElementById('fLoja').addEventListener('change', renderTudo);
+  document.getElementById('fCategoria').addEventListener('change', renderTudo);
+  document.getElementById('fPeriodicidade').addEventListener('change', renderTudo);
+  document.getElementById('fFonte').addEventListener('change', renderTudo);
+  document.getElementById('fSituacao').addEventListener('change', renderTudo);
+  document.getElementById('fStatusPrazo').addEventListener('change', renderTudo);
+  document.getElementById('fBusca').addEventListener('input', renderTudo);
+  document.getElementById('limparBtn').addEventListener('click', limparFiltros);
+
+  carregarDados();
+})();
+</script>
+</body>
+</html>
