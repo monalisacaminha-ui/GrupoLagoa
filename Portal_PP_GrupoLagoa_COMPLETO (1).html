@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Portal Prevenção de Perdas | Grupo Lagoa</title>
@@ -197,7 +196,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
   <div class="alert alert-info">📌 <strong>Acesso rápido:</strong> Use os botões abaixo para ir direto à função que precisa.</div>
   <div class="qa-grid">
     <div class="qa-btn" onclick="ir('checklists')"><span class="qi">✅</span>Checklists do Dia</div>
-    <div class="qa-btn" onclick="ir('pops')"><span class="qi">📄</span>POPs & Manuais</div>
+    <div class="qa-btn" onclick="ir('pops')"><span class="qi">📄</span>POPs &amp; Manuais</div>
     <div class="qa-btn" onclick="ir('testes')"><span class="qi">🧠</span>Teste de Conhecimento</div>
     <div class="qa-btn" onclick="ir('duvidas')"><span class="qi">🤖</span>Tira-Dúvidas IA</div>
     <div class="qa-btn" onclick="ir('ocorrencias')"><span class="qi">🚨</span>Registrar Ocorrência</div>
@@ -215,19 +214,19 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     <h2>📊 Resumo do Portal</h2>
     <div class="cards">
       <div class="card"><div class="icon">📋</div><h3>5 Checklists</h3><p>Abertura, Fechamento, Portaria, FLV e Pré-Inventário com progresso em tempo real.</p></div>
-      <div class="card"><div class="icon">📄</div><h3>10 POPs & Manuais</h3><p>Procedimentos operacionais, manuais corporativos e políticas atualizadas.</p></div>
+      <div class="card"><div class="icon">📄</div><h3>10 POPs &amp; Manuais</h3><p>Procedimentos operacionais, manuais corporativos e políticas atualizadas.</p></div>
       <div class="card"><div class="icon">🧠</div><h3>32 Questões</h3><p>Testes em 4 módulos: Fundamentos, Processos, Inventário e Conduta Profissional.</p></div>
       <div class="card"><div class="icon">🤖</div><h3>Agente Virtual</h3><p>Responde dúvidas sobre processos, normas e rotinas em tempo real.</p></div>
     </div>
   </div>
-<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('inicio','papeis')">Concluir e avancar &#10142;</button></div></section>
+<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('inicio','papeis')">Concluir e avancar ➞</button></div></section>
 
 <!-- PAPEIS -->
 <section id="sec-papeis" class="sec">
-  <h1 class="pg-title">Papéis & Rotinas</h1>
+  <h1 class="pg-title">Papéis &amp; Rotinas</h1>
   <p class="pg-sub">Responsabilidades por cargo e rotinas operacionais da área</p>
 
-  <div class="blk">
+  <div id="vistoTxt_papeis" style="margin: -4px 0px 14px; font-weight: 600; color: rgb(85, 85, 85);"></div><div class="blk">
     <h2>🎯 Gestor de Prevenção de Perdas</h2>
     <h3>Responsabilidades Estratégicas</h3>
     <ul style="padding-left:18px;line-height:2">
@@ -242,7 +241,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     </ul>
     <h3>Rotina Diária</h3>
     <table>
-      <tr><th>Horário</th><th>Atividade</th><th>Responsável</th></tr>
+      <tbody><tr><th>Horário</th><th>Atividade</th><th>Responsável</th></tr>
       <tr><td>07:00–08:00</td><td>Análise dos indicadores do dia anterior (quebras, ocorrências)</td><td>Gestor PP</td></tr>
       <tr><td>08:00–09:30</td><td>Ronda de abertura + verificação de câmeras e alarmes</td><td>Gestor / Coord.</td></tr>
       <tr><td>09:30–11:00</td><td>Revisão dos checklists de setores críticos (FLV, Portaria)</td><td>Coordenador PP</td></tr>
@@ -250,8 +249,8 @@ nav button.locked{opacity:.4;cursor:not-allowed}
       <tr><td>14:00–16:00</td><td>Monitoramento de câmeras e ronda de piso</td><td>Fiscal PP</td></tr>
       <tr><td>16:00–17:30</td><td>Conferência de saída de mercadorias / portaria</td><td>Porteiro / Fiscal</td></tr>
       <tr><td>17:30–18:00</td><td>Registro de ocorrências e fechamento de relatório diário</td><td>Gestor / Coord.</td></tr>
-    </table>
-  </div>
+    </tbody></table>
+  <div style="margin-top: 14px; text-align: right;"><button class="btn btn-sm btn-success" id="vistoBtn_papeis_0" onclick="marcarVisto('papeis',0)">☑ Marcar como visto</button></div></div>
 
   <div class="blk">
     <h2>🔍 Coordenador de Prevenção de Perdas</h2>
@@ -266,7 +265,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
       <li>Executar conferência de cargas de entrada e saída</li>
       <li>Apoiar investigações internas quando acionado pela gestão</li>
     </ul>
-  </div>
+  <div style="margin-top: 14px; text-align: right;"><button class="btn btn-sm btn-success" id="vistoBtn_papeis_1" onclick="marcarVisto('papeis',1)">☑ Marcar como visto</button></div></div>
 
   <div class="blk">
     <h2>🚪 Porteiro / Fiscal de Loja</h2>
@@ -276,12 +275,12 @@ nav button.locked{opacity:.4;cursor:not-allowed}
       <div class="card"><div class="icon">📋</div><h3>Registro de Quebras</h3><p>Lançar no sistema toda quebra identificada na portaria conforme POP de Registro de Quebras.</p></div>
       <div class="card"><div class="icon">🎥</div><h3>Monitoramento</h3><p>Monitorar câmeras de segurança nos períodos críticos: abertura, pico e fechamento.</p></div>
     </div>
-  </div>
+  <div style="margin-top: 14px; text-align: right;"><button class="btn btn-sm btn-success" id="vistoBtn_papeis_2" onclick="marcarVisto('papeis',2)">☑ Marcar como visto</button></div></div>
 
   <div class="blk">
     <h2>📊 Responsabilidades por Setor</h2>
     <table>
-      <tr><th>Setor</th><th>Principal Risco</th><th>Frequência de Inventário</th><th>Responsável PP</th></tr>
+      <tbody><tr><th>Setor</th><th>Principal Risco</th><th>Frequência de Inventário</th><th>Responsável PP</th></tr>
       <tr><td>FLV (Frutas, Legumes, Verduras)</td><td>Quebra operacional, validade</td><td>Diário</td><td>Coord. + Fiscal</td></tr>
       <tr><td>Açougue / Peixaria</td><td>Furto interno, peso</td><td>Semanal</td><td>Gestor PP</td></tr>
       <tr><td>Padaria / Confeitaria</td><td>Quebra de produção</td><td>Semanal</td><td>Coord. PP</td></tr>
@@ -289,43 +288,44 @@ nav button.locked{opacity:.4;cursor:not-allowed}
       <tr><td>Bazar / Têxtil</td><td>Furto externo</td><td>Mensal</td><td>Fiscal PP</td></tr>
       <tr><td>Eletro / Informática</td><td>Furto alto valor</td><td>Semanal</td><td>Gestor PP</td></tr>
       <tr><td>Bebidas / Tabacaria</td><td>Furto interno e externo</td><td>Quinzenal</td><td>Coord. PP</td></tr>
-    </table>
-  </div>
-<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('papeis','checklists')">Concluir e avancar &#10142;</button></div></section>
+    </tbody></table>
+  <div style="margin-top: 14px; text-align: right;"><button class="btn btn-sm btn-success" id="vistoBtn_papeis_3" onclick="marcarVisto('papeis',3)">☑ Marcar como visto</button></div></div>
+<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="tentarConcluir('papeis','checklists')">Concluir e avancar ➞</button></div></section>
 <!-- CHECKLISTS -->
 <section id="sec-checklists" class="sec">
   <h1 class="pg-title">Checklists Operacionais</h1>
-  <p class="pg-sub">Marque os itens conforme execução. O progresso é salvo automaticamente.</p>
-  <div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
-    <div class="card" onclick="renderCk(0)"><div class="icon">🌅</div><h3>Abertura da Loja</h3><p>Verificações obrigatórias antes da abertura ao público.</p></div>
-    <div class="card" onclick="renderCk(1)"><div class="icon">🌙</div><h3>Fechamento da Loja</h3><p>Procedimentos de segurança no encerramento do dia.</p></div>
-    <div class="card" onclick="renderCk(2)"><div class="icon">🚪</div><h3>Portaria / Recebimento</h3><p>Conferência de cargas e controle de acesso.</p></div>
-    <div class="card" onclick="renderCk(3)"><div class="icon">🥦</div><h3>Checklist FLV</h3><p>Rotinas diárias no setor de FLV para controle de perdas.</p></div>
-    <div class="card" onclick="renderCk(4)"><div class="icon">📦</div><h3>Pré-Inventário</h3><p>Preparação do setor para contagem de inventário.</p></div>
+  <p class="pg-sub">Consulte os itens de cada tópico e marque como visto para avançar.</p>
+  <div id="vistoTxt_checklists" style="margin: -4px 0px 14px; font-weight: 600; color: rgb(85, 85, 85);"></div><div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">
+    <div class="card" onclick="renderCk(0)" id="ckCard_0"><span id="cardChk_0" style="float: right; font-size: 18px;"></span><div class="icon">🌅</div><h3>Abertura da Loja</h3><p>Verificações obrigatórias antes da abertura ao público.</p></div>
+    <div class="card" onclick="renderCk(1)" id="ckCard_1"><span id="cardChk_1" style="float: right; font-size: 18px;"></span><div class="icon">🌙</div><h3>Fechamento da Loja</h3><p>Procedimentos de segurança no encerramento do dia.</p></div>
+    <div class="card" onclick="renderCk(2)" id="ckCard_2"><span id="cardChk_2" style="float: right; font-size: 18px;"></span><div class="icon">🚪</div><h3>Portaria / Recebimento</h3><p>Conferência de cargas e controle de acesso.</p></div>
+    <div class="card" onclick="renderCk(3)" id="ckCard_3"><span id="cardChk_3" style="float: right; font-size: 18px;"></span><div class="icon">🥦</div><h3>Checklist FLV</h3><p>Rotinas diárias no setor de FLV para controle de perdas.</p></div>
+    <div class="card" onclick="renderCk(4)" id="ckCard_4"><span id="cardChk_4" style="float: right; font-size: 18px;"></span><div class="icon">📦</div><h3>Pré-Inventário</h3><p>Preparação do setor para contagem de inventário.</p></div>
   </div>
   <div id="ckArea" style="display:none">
     <div class="blk">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <h2 id="ckTitle">Checklist</h2>
         <div style="display:flex;gap:8px">
-          <button class="btn btn-sm btn-success" onclick="resetCk()">↺ Resetar</button>
           <button class="btn btn-sm" style="background:#e0e4ee;color:#333" onclick="document.getElementById('ckArea').style.display='none'">← Voltar</button>
         </div>
       </div>
-      <div class="prog-bar"><div class="prog-fill" id="ckProg" style="width:0%"></div></div>
-      <div class="prog-txt" id="ckTxt">0 de 0 itens concluídos</div>
+      <div id="ckVistoStatus" style="font-weight:600;color:#555;margin-bottom:10px"></div>
       <div id="ckList"></div>
+      <div style="margin-top:16px;text-align:right">
+        <button class="btn btn-sm btn-success" id="ckVistoBtn" onclick="marcarVistoCk()">☑ Marcar como visto</button>
+      </div>
     </div>
   </div>
-<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('checklists','pops')">Concluir e avancar &#10142;</button></div></section>
+<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="tentarConcluir('checklists','pops')">Concluir e avancar ➞</button></div></section>
 
 <!-- POPS -->
 <section id="sec-pops" class="sec">
-  <h1 class="pg-title">POPs & Manuais</h1>
+  <h1 class="pg-title">POPs &amp; Manuais</h1>
   <p class="pg-sub">Procedimentos Operacionais Padrão e documentos oficiais do Grupo Lagoa</p>
   <div class="alert alert-info">📋 Clique em qualquer documento para visualizar o conteúdo completo.</div>
   <div class="cards">
-    <div class="card" onclick="abrirModal('m1')"><div class="icon">📋</div><h3>POP — Portaria & Registro de Quebras</h3><p>Procedimento para controle de portaria e lançamento de quebras no sistema.</p><br><span class="badge badge-blue">Operacional</span></div>
+    <div class="card" onclick="abrirModal('m1')"><div class="icon">📋</div><h3>POP — Portaria &amp; Registro de Quebras</h3><p>Procedimento para controle de portaria e lançamento de quebras no sistema.</p><br><span class="badge badge-blue">Operacional</span></div>
     <div class="card" onclick="abrirModal('m2')"><div class="icon">📊</div><h3>POP — Inventário FLV</h3><p>Procedimento de contagem e conferência no setor de FLV.</p><br><span class="badge badge-green">FLV</span></div>
     <div class="card" onclick="abrirModal('m3')"><div class="icon">⚖️</div><h3>POP — Aferição de Balança</h3><p>Rotina de aferição de balanças conforme exigência do Inmetro.</p><br><span class="badge badge-orange">Metrologia</span></div>
     <div class="card" onclick="abrirModal('m4')"><div class="icon">📦</div><h3>Manual de Inventário — Rede Lagoa</h3><p>Manual corporativo completo do processo de inventário.</p><br><span class="badge badge-blue">Corporativo</span></div>
@@ -336,7 +336,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     <div class="card" onclick="abrirModal('m9')"><div class="icon">🏪</div><h3>Rotinas Gerentes Geral e Operacional</h3><p>Rotinas obrigatórias para gerentes de loja vinculadas à PP.</p><br><span class="badge badge-green">Gestão</span></div>
     <div class="card" onclick="abrirModal('m10')"><div class="icon">🗺️</div><h3>Mapeamento PP</h3><p>Mapeamento de processos e riscos da área de Prevenção de Perdas.</p><br><span class="badge badge-blue">Estratégia</span></div>
   </div>
-<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('pops','treinamentos')">Concluir e avancar &#10142;</button></div></section>
+<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('pops','treinamentos')">Concluir e avancar ➞</button></div></section>
 <!-- TREINAMENTOS -->
 <section id="sec-treinamentos" class="sec">
   <h1 class="pg-title">Trilha de Treinamentos</h1>
@@ -400,7 +400,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
       </div>
     </div>
   </div>
-<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('treinamentos','testes')">Concluir e avancar &#10142;</button></div></section>
+<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="marcarConcluido('treinamentos','testes')">Concluir e avancar ➞</button></div></section>
 
 <!-- TESTES -->
 <section id="sec-testes" class="sec">
@@ -420,10 +420,10 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     </div>
   </div>
   <div id="quizArea"></div>
-<div style="margin-top:20px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="finalizarTestes()">Concluir Testes e Emitir Certificado &#127942;</button></div></section>
+<div style="margin-top:20px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="finalizarTestes()">Concluir Testes e Emitir Certificado 🏆</button></div></section>
 <!-- INDICADORES -->
 <section id="sec-indicadores" class="sec">
-  <h1 class="pg-title">Indicadores & KPIs</h1>
+  <h1 class="pg-title">Indicadores &amp; KPIs</h1>
   <p class="pg-sub">Métricas de desempenho da área de Prevenção de Perdas</p>
   <div class="kpi-grid">
     <div class="kpi"><div class="val">0,8%</div><div class="lbl">Meta de Quebra</div><div class="tgt">% sobre faturamento</div></div>
@@ -437,7 +437,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
   <div class="blk">
     <h2>🎯 Metas por Setor</h2>
     <table>
-      <tr><th>Setor</th><th>Meta Quebra (%)</th><th>Frequência Inventário</th><th>Acurácia Mínima</th></tr>
+      <tbody><tr><th>Setor</th><th>Meta Quebra (%)</th><th>Frequência Inventário</th><th>Acurácia Mínima</th></tr>
       <tr><td>FLV</td><td>≤ 1,5%</td><td>Diário</td><td>90%</td></tr>
       <tr><td>Açougue / Peixaria</td><td>≤ 1,2%</td><td>Semanal</td><td>93%</td></tr>
       <tr><td>Padaria</td><td>≤ 2,0%</td><td>Semanal</td><td>88%</td></tr>
@@ -445,7 +445,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
       <tr><td>Bazar / Têxtil</td><td>≤ 0,3%</td><td>Mensal</td><td>98%</td></tr>
       <tr><td>Eletro</td><td>≤ 0,2%</td><td>Semanal</td><td>99%</td></tr>
       <tr><td>Bebidas</td><td>≤ 0,4%</td><td>Quinzenal</td><td>97%</td></tr>
-    </table>
+    </tbody></table>
   </div>
 
   <div class="blk">
@@ -501,7 +501,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     </div>
     <div class="form-row">
       <div><label class="fl">Tipo de Ocorrência *</label><select class="fi" id="ocTipo"><option value="">Selecione...</option><option>Furto Externo</option><option>Furto Interno</option><option>Quebra Operacional</option><option>Divergência de Inventário</option><option>Divergência de NF</option><option>Avaria de Produto</option><option>Produto Vencido</option><option>Acidente de Trabalho</option><option>Outros</option></select></div>
-      <div><label class="fl">Gravidade</label><select class="fi" id="ocGrav"><option>Baixa</option><option>Média</option><option selected>Alta</option><option>Crítica</option></select></div>
+      <div><label class="fl">Gravidade</label><select class="fi" id="ocGrav"><option>Baixa</option><option>Média</option><option selected="">Alta</option><option>Crítica</option></select></div>
     </div>
     <div class="form-row full"><label class="fl">Descrição detalhada *</label><textarea class="fi" id="ocDesc" placeholder="Descreva o ocorrido com o máximo de detalhes: produto, quantidade, valor estimado, envolvidos, testemunhas..."></textarea></div>
     <div class="form-row full"><label class="fl">Ação imediata tomada</label><textarea class="fi" id="ocAcao" placeholder="Descreva a ação tomada no momento da ocorrência..." style="min-height:70px"></textarea></div>
@@ -519,7 +519,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
 
 <!-- LEGISLACAO -->
 <section id="sec-legislacao" class="sec">
-  <h1 class="pg-title">Legislação & Referências</h1>
+  <h1 class="pg-title">Legislação &amp; Referências</h1>
   <p class="pg-sub">Base legal aplicável às atividades de Prevenção de Perdas</p>
   <div class="leg-item">
     <h3>⚖️ Código Penal Brasileiro (CP)</h3>
@@ -549,14 +549,14 @@ nav button.locked{opacity:.4;cursor:not-allowed}
   <div class="leg-item">
     <h3>🏪 Normas Internas — Grupo Lagoa</h3>
     <p>As Normas e Procedimentos Internos do Grupo Lagoa complementam a legislação vigente. Incluem: Política de Estoque e Inventário (PL PP 02), Manual de Operações PP, Manual de Procedimentos Operacionais Super Lagoa, e demais POPs vigentes. Todos os colaboradores devem conhecer e seguir estas normas.</p>
-    <button class="btn btn-sm btn-primary" style="margin-top:8px" onclick="ir('pops')">📄 Ver POPs & Manuais</button>
+    <button class="btn btn-sm btn-primary" style="margin-top:8px" onclick="ir('pops')">📄 Ver POPs &amp; Manuais</button>
   </div>
 </section>
 <section id="sec-certificado" class="sec">
   <h1 class="pg-title">Certificado de Conclusao</h1>
   <p class="pg-sub">Parabens por concluir a trilha de treinamento de Prevencao de Perdas do Grupo Lagoa</p>
   <div id="certBox" style="border:3px solid #0d2460;padding:40px;text-align:center;border-radius:12px;margin-top:20px;background:#fff">
-    <div style="font-size:2.2rem">&#127942;</div>
+    <div style="font-size:2.2rem">🏆</div>
     <h2 style="color:#0d2460;margin:10px 0 4px">Certificado de Qualificacao</h2>
     <p style="color:#666;margin-bottom:18px">Certificamos que</p>
     <h1 id="certNome" style="color:#0d2460;margin:8px 0"></h1>
@@ -565,7 +565,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     <p id="certScore" style="color:#0d2460;font-weight:700"></p>
   </div>
   <div style="margin-top:24px;text-align:center">
-    <button class="btn btn-primary" onclick="window.print()">Imprimir / Salvar como PDF &#128424;</button>
+    <button class="btn btn-primary" onclick="window.print()">Imprimir / Salvar como PDF 🖨</button>
   </div>
 </section>
 </main>
@@ -574,7 +574,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
   <h3 style="margin-bottom:6px">Bem-vindo(a)!</h3>
   <p style="margin-bottom:16px;color:#555">Antes de comecar sua jornada de Prevencao de Perdas, informe seu nome completo:</p>
   <input id="gateNomeInput" type="text" placeholder="Seu nome completo" style="width:100%;padding:10px;border:1px solid #ccc;border-radius:8px;margin-bottom:14px;font-size:1rem;box-sizing:border-box">
-  <button class="btn btn-primary" style="width:100%" onclick="iniciarJornada()">Iniciar Jornada &#128640;</button>
+  <button class="btn btn-primary" style="width:100%" onclick="iniciarJornada()">Iniciar Jornada 🚀</button>
 </div>
 </div>
 <!-- MODALS -->
@@ -639,35 +639,67 @@ let _ckIdx=0;
 function renderCk(i){
   _ckIdx=i;
   const ck=CKS[i];
-  document.getElementById('ckTitle').textContent=ck.title;
-  const saved=JSON.parse(localStorage.getItem('ck_'+i)||'[]');
-  document.getElementById('ckList').innerHTML=ck.items.map((it,j)=>{
-    const done=saved.includes(j);
-    return `<div class="ck-item${done?' done':''}" id="cki${j}" onclick="toggleItem(${j})"><input type="checkbox" ${done?'checked':''} onchange="toggleItem(${j})" onclick="event.stopPropagation()"><label>${it}</label></div>`;
-  }).join('');
-  updProg(i);
   document.getElementById('ckArea').style.display='block';
-  document.getElementById('ckArea').scrollIntoView({behavior:'smooth'});
+  document.getElementById('ckTitle').textContent=ck.title;
+  document.getElementById('ckList').innerHTML = '<ul style="line-height:1.9">' + ck.items.map(it=>'<li>'+it+'</li>').join('') + '</ul>';
+  renderVistoUI('checklists');
 }
-function toggleItem(j){
-  const saved=JSON.parse(localStorage.getItem('ck_'+_ckIdx)||'[]');
-  const idx=saved.indexOf(j);
-  if(idx>=0)saved.splice(idx,1); else saved.push(j);
-  localStorage.setItem('ck_'+_ckIdx,JSON.stringify(saved));
-  renderCk(_ckIdx);
+function marcarVistoCk(){
+  marcarVisto('checklists', _ckIdx);
 }
-function updProg(i){
-  const ck=CKS[i];
-  const saved=JSON.parse(localStorage.getItem('ck_'+i)||'[]');
-  const pct=Math.round((saved.length/ck.items.length)*100);
-  document.getElementById('ckProg').style.width=pct+'%';
-  document.getElementById('ckTxt').textContent=saved.length+' de '+ck.items.length+' itens concluídos ('+pct+'%)';
+const TOPICS = {
+  papeis: ['Gestor de Prevenção de Perdas','Coordenador de Prevenção de Perdas','Porteiro / Fiscal de Loja','Responsabilidades por Setor'],
+  checklists: CKS.map(c=>c.title)
+};
+function getVisto(sec){
+  try{ return JSON.parse(localStorage.getItem('visto_'+sec)||'[]'); }catch(e){ return []; }
 }
-function resetCk(){
-  localStorage.removeItem('ck_'+_ckIdx);
-  renderCk(_ckIdx);
+function marcarVisto(sec, idx){
+  const v = getVisto(sec);
+  if(!v.includes(idx)) v.push(idx);
+  localStorage.setItem('visto_'+sec, JSON.stringify(v));
+  renderVistoUI(sec);
 }
-// ============ QUIZ ============
+function renderVistoUI(sec){
+  const total = (TOPICS[sec]||[]).length;
+  const v = getVisto(sec);
+  const txt = document.getElementById('vistoTxt_'+sec);
+  if(txt) txt.textContent = '☑ '+v.length+' de '+total+' tópicos vistos';
+  if(sec==='papeis'){
+    TOPICS.papeis.forEach((_,i)=>{
+      const b = document.getElementById('vistoBtn_papeis_'+i);
+      if(b){
+        if(v.includes(i)){ b.textContent='✅ Visto'; b.disabled=true; }
+        else { b.textContent='☑ Marcar como visto'; b.disabled=false; }
+      }
+    });
+  }
+  if(sec==='checklists'){
+    renderCkCards();
+    const btn = document.getElementById('ckVistoBtn');
+    const status = document.getElementById('ckVistoStatus');
+    if(btn && status){
+      if(v.includes(_ckIdx)){ btn.textContent='✅ Visto'; btn.disabled=true; status.textContent='Você já marcou este tópico como visto.'; }
+      else { btn.textContent='☑ Marcar como visto'; btn.disabled=false; status.textContent='Leia os itens abaixo e marque como visto ao concluir.'; }
+    }
+  }
+}
+function renderCkCards(){
+  const v = getVisto('checklists');
+  CKS.forEach((c,i)=>{
+    const span = document.getElementById('cardChk_'+i);
+    if(span) span.textContent = v.includes(i) ? '✅' : '';
+  });
+}
+function tentarConcluir(sec, next){
+  const total = (TOPICS[sec]||[]).length;
+  const v = getVisto(sec);
+  if(v.length < total){
+    alert('Marque como visto todos os tópicos ('+v.length+' de '+total+') antes de avançar.');
+    return;
+  }
+  marcarConcluido(sec, next);
+}
 const QD=[
   // Module 0: Fundamentos
   [{q:'O que é "perda operacional" no contexto do varejo?',o:['Furto praticado por funcionários','Dano ou desperdício ocorrido durante operações normais da loja','Divergência em inventário causada por erro de sistema','Produto entregue com NF incorreta'],c:1,e:'Perda operacional é gerada no próprio processo: queda de produto, validade vencida, acidente em reposição, etc.'},
@@ -927,4 +959,7 @@ function renderCertificado(){
   renderProgressBar();
 })();
 
-</script></body></html>
+
+(function(){ try{ renderVistoUI('papeis'); renderVistoUI('checklists'); }catch(e){} })();
+</script>
+</body></html>
