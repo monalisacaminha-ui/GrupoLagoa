@@ -438,7 +438,27 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     <div class="kpi"><div class="val">100%</div><div class="lbl">Balanças Aferidas</div><div class="tgt">Conforme cronograma</div></div>
   </div>
 
-  <div class="blk">
+  
+    <!-- Registrar Realizado Section -->
+    <div style="margin-top: 32px; padding: 24px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <h3 style="color: #003366; margin-bottom: 20px; font-size: 1.1em;">📊 Registrar Realizado</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Quebra (%):</label><input id="indic-quebra" type="number" step="0.1" placeholder="Ex: 0.8" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Acurácia (%):</label><input id="indic-acuracia" type="number" step="0.1" placeholder="Ex: 95" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Checklists (%):</label><input id="indic-checklists" type="number" step="0.1" placeholder="Ex: 100" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Divergências:</label><input id="indic-divergencias" type="number" step="1" placeholder="Ex: 0" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+      </div>
+      <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <select id="indic-periodo" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+          <option value="mes">Mês Atual</option>
+          <option value="acumulado">Acumulado</option>
+        </select>
+        <button onclick="salvarIndicadores()" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">💾 Salvar</button>
+        <button onclick="retryIndicadores()" style="padding: 10px 20px; background-color: #f0ad4e; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">↻ Tentar Novamente</button>
+      </div>
+      <div id="indic-message" style="padding: 10px; border-radius: 4px; display: none; margin-bottom: 16px;"></div>
+    </div>
+    <div class="blk">
     <h2>🎯 Metas por Setor</h2>
     <table>
       <tbody><tr><th>Setor</th><th>Meta Quebra (%)</th><th>Frequência Inventário</th><th>Acurácia Mínima</th></tr>
@@ -495,6 +515,23 @@ nav button.locked{opacity:.4;cursor:not-allowed}
   <p class="pg-sub">Registre ocorrências de desvio, furto, divergência ou incidente operacional</p>
   <div class="blk">
     <h2>📋 Formulário de Ocorrência</h2>
+    
+    <!-- Ocorrências Form -->
+    <div style="margin-top: 32px; padding: 24px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <h3 style="color: #003366; margin-bottom: 20px; font-size: 1.1em;">📝 Formulário de Registro</h3>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Data:</label><input id="ocor-data" type="date" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Hora:</label><input id="ocor-hora" type="time" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Loja:</label><input id="ocor-loja" type="text" placeholder="Ex: Loja Centro" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Setor:</label><input id="ocor-setor" type="text" placeholder="Ex: Padaria" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Tipo:</label><select id="ocor-tipo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"><option value="">Selecione...</option><option value="operacional">Operacional</option><option value="furto">Furto</option><option value="validade">Validade</option></select></div>
+        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Gravidade:</label><select id="ocor-gravidade" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"><option value="">Selecione...</option><option value="baixa">Baixa</option><option value="media">Média</option><option value="alta">Alta</option></select></div>
+      </div>
+      <div style="margin-bottom: 20px;"><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Descrição:</label><textarea id="ocor-descricao" placeholder="Descreva a ocorrência..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; min-height: 100px;"></textarea></div>
+      <div style="margin-bottom: 20px;"><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Responsável:</label><input id="ocor-responsavel" type="text" placeholder="Nome do responsável" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
+      <div style="display: flex; gap: 8px; margin-bottom: 16px;"><button onclick="salvarOcorrencia()" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">💾 Salvar</button><button onclick="retryOcorrencia()" style="padding: 10px 20px; background-color: #f0ad4e; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">↻ Tentar Novamente</button></div>
+      <div id="ocor-message" style="padding: 10px; border-radius: 4px; display: none; margin-bottom: 16px;"></div>
+    </div>
     <div class="form-row">
       <div><label class="fl">Data da Ocorrência *</label><input type="date" class="fi" id="ocData"></div>
       <div><label class="fl">Horário *</label><input type="time" class="fi" id="ocHora"></div>
@@ -1022,7 +1059,39 @@ function renderCertificado(){
 })();
 
 
-(function(){ try{ renderVistoUI('papeis'); renderVistoUI('checklists'); renderVistoUI('pops'); renderVistoUI('treinamentos'); renderVistoUI('testes'); }catch(e){} })();
+(function(){ try{ renderVistoUI('papeis'); renderVistoUI('checklists'); renderVistoUI('pops'); renderVistoUI('treinamentos'); renderVistoUI('testes'); }catch(e){} 
+  // ===== PHASE 2 FUNCTIONS =====
+  function switchIndicPeriodo(periodo) { document.getElementById('indic-periodo').value = periodo; }
+  function salvarIndicadores() {
+    const quebra = parseFloat(document.getElementById('indic-quebra').value), acuracia = parseFloat(document.getElementById('indic-acuracia').value), checklists = parseFloat(document.getElementById('indic-checklists').value), divergencias = parseInt(document.getElementById('indic-divergencias').value), periodo = document.getElementById('indic-periodo').value;
+    if (isNaN(quebra) || isNaN(acuracia) || isNaN(checklists) || isNaN(divergencias)) { mostrarMensagem('indic-message', 'Por favor, preencha todos os campos', 'error'); return; }
+    const data = { timestamp: new Date().toISOString(), periodo, quebra, acuracia, checklists, divergencias };
+    if (window._appScriptWebhookUrl) {
+      fetch(window._appScriptWebhookUrl, { method: 'POST', body: JSON.stringify({ type: 'indicadores', data }) })
+        .then(r => r.json())
+        .then(result => { mostrarMensagem('indic-message', '✅ Salvo com sucesso!', 'success'); document.getElementById('indic-quebra').value = ''; document.getElementById('indic-acuracia').value = ''; document.getElementById('indic-checklists').value = ''; document.getElementById('indic-divergencias').value = ''; })
+        .catch(e => mostrarMensagem('indic-message', 'Erro: ' + e.message, 'error'));
+    } else { mostrarMensagem('indic-message', 'Webhook não configurado', 'error'); }
+  }
+  function retryIndicadores() { document.getElementById('indic-quebra').value = ''; document.getElementById('indic-acuracia').value = ''; document.getElementById('indic-checklists').value = ''; document.getElementById('indic-divergencias').value = ''; document.getElementById('indic-message').style.display = 'none'; }
+  function salvarOcorrencia() {
+    const data_field = document.getElementById('ocor-data').value, hora = document.getElementById('ocor-hora').value, loja = document.getElementById('ocor-loja').value, setor = document.getElementById('ocor-setor').value, tipo = document.getElementById('ocor-tipo').value, gravidade = document.getElementById('ocor-gravidade').value, descricao = document.getElementById('ocor-descricao').value, responsavel = document.getElementById('ocor-responsavel').value;
+    if (!data_field || !hora || !loja || !setor || !tipo || !gravidade || !descricao || !responsavel) { mostrarMensagem('ocor-message', 'Por favor, preencha todos os campos', 'error'); return; }
+    const ocorrenciaData = { timestamp: new Date().toISOString(), data: data_field, hora, loja, setor, tipo, gravidade, descricao, responsavel };
+    if (window._appScriptWebhookUrl) {
+      fetch(window._appScriptWebhookUrl, { method: 'POST', body: JSON.stringify({ type: 'ocorrencias', data: ocorrenciaData }) })
+        .then(r => r.json())
+        .then(result => { mostrarMensagem('ocor-message', '✅ Registrada com sucesso!', 'success'); document.getElementById('ocor-data').value = ''; document.getElementById('ocor-hora').value = ''; document.getElementById('ocor-loja').value = ''; document.getElementById('ocor-setor').value = ''; document.getElementById('ocor-tipo').value = ''; document.getElementById('ocor-gravidade').value = ''; document.getElementById('ocor-descricao').value = ''; document.getElementById('ocor-responsavel').value = ''; })
+        .catch(e => mostrarMensagem('ocor-message', 'Erro: ' + e.message, 'error'));
+    } else { mostrarMensagem('ocor-message', 'Webhook não configurado', 'error'); }
+  }
+  function retryOcorrencia() { document.getElementById('ocor-data').value = ''; document.getElementById('ocor-hora').value = ''; document.getElementById('ocor-loja').value = ''; document.getElementById('ocor-setor').value = ''; document.getElementById('ocor-tipo').value = ''; document.getElementById('ocor-gravidade').value = ''; document.getElementById('ocor-descricao').value = ''; document.getElementById('ocor-responsavel').value = ''; document.getElementById('ocor-message').style.display = 'none'; }
+  function retryTestes() { localStorage.removeItem('currentTest'); localStorage.removeItem('testAnswers'); window.location.href = window.location.pathname; }
+  function setOpenAIKey() { const key = document.getElementById('openai-key').value.trim(); if (!key) { alert('Por favor, insira a chave de API'); return; } localStorage.setItem('openai_api_key', key); document.getElementById('openai-key').value = ''; document.getElementById('openai-key').style.display = 'none'; document.getElementById('chat-interface').style.display = 'block'; alert('✓ Chave configurada!'); }
+  function enviarPergunta() { const pergunta = document.getElementById('chat-input').value.trim(); if (!pergunta) return; const key = localStorage.getItem('openai_api_key'); if (!key) { alert('Configure a chave primeiro!'); return; } const messagesDiv = document.getElementById('chat-messages'); const userMsg = document.createElement('div'); userMsg.style.cssText = 'padding: 10px; background: #fff3cd; border-radius: 4px; margin-bottom: 8px;'; userMsg.innerHTML = '<strong>Você:</strong> ' + pergunta; messagesDiv.appendChild(userMsg); messagesDiv.scrollTop = messagesDiv.scrollHeight; document.getElementById('chat-input').value = ''; }
+  function mostrarMensagem(elementId, mensagem, tipo) { const el = document.getElementById(elementId); el.textContent = mensagem; el.style.display = 'block'; el.style.backgroundColor = tipo === 'success' ? '#d4edda' : '#f8d7da'; el.style.color = tipo === 'success' ? '#155724' : '#721c24'; el.style.border = '1px solid ' + (tipo === 'success' ? '#c3e6cb' : '#f5c6cb'); }
+
+})();
 </script>
 
 </body></html>
