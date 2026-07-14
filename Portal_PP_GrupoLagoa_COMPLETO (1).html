@@ -1129,6 +1129,17 @@ function renderCertificado(){
   function enviarPergunta() { const pergunta = document.getElementById('chat-input').value.trim(); if (!pergunta) return; const key = localStorage.getItem('openai_api_key'); if (!key) { alert('Configure a chave primeiro!'); return; } const messagesDiv = document.getElementById('chat-messages'); const userMsg = document.createElement('div'); userMsg.style.cssText = 'padding: 10px; background: #fff3cd; border-radius: 4px; margin-bottom: 8px;'; userMsg.innerHTML = '<strong>Você:</strong> ' + pergunta; messagesDiv.appendChild(userMsg); messagesDiv.scrollTop = messagesDiv.scrollHeight; document.getElementById('chat-input').value = ''; }
   function mostrarMensagem(elementId, mensagem, tipo) { const el = document.getElementById(elementId); el.textContent = mensagem; el.style.display = 'block'; el.style.backgroundColor = tipo === 'success' ? '#d4edda' : '#f8d7da'; el.style.color = tipo === 'success' ? '#155724' : '#721c24'; el.style.border = '1px solid ' + (tipo === 'success' ? '#c3e6cb' : '#f5c6cb'); }
 
+
+  // expose to global scope for inline onclick handlers
+  window.switchIndicPeriodo = switchIndicPeriodo;
+  window.salvarIndicadores = salvarIndicadores;
+  window.retryIndicadores = retryIndicadores;
+  window.salvarOcorrencia = salvarOcorrencia;
+  window.retryOcorrencia = retryOcorrencia;
+  window.retryTestes = retryTestes;
+  window.setOpenAIKey = setOpenAIKey;
+  window.enviarPergunta = enviarPergunta;
+  window.mostrarMensagem = mostrarMensagem;
 })();
 </script>
 
