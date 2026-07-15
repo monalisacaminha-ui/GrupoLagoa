@@ -1094,36 +1094,13 @@ function renderCertificado(){
     } else { mostrarMensagem('ocor-message', 'Webhook não configurado', 'error'); }
   }
   function retryOcorrencia() { document.getElementById('ocor-data').value = ''; document.getElementById('ocor-hora').value = ''; document.getElementById('ocor-loja').value = ''; document.getElementById('ocor-setor').value = ''; document.getElementById('ocor-tipo').value = ''; document.getElementById('ocor-gravidade').value = ''; document.getElementById('ocor-descricao').value = ''; document.getElementById('ocor-responsavel').value = ''; document.getElementById('ocor-message').style.display = 'none'; }
-  function retryTestes() {
-  // Limpar todas as respostas selecionadas
-  const opts = document.querySelectorAll('.quiz-opt');
-  opts.forEach(opt => {
-    opt.classList.remove('correct', 'wrong');
-    opt.disabled = false;
-  });
-  
-  // Limpar feedback
-  const feedbacks = document.querySelectorAll('.quiz-fb');
-  feedbacks.forEach(fb => {
-    fb.classList.remove('ok', 'nok');
-    fb.textContent = '';
-  });
-  
-  // Resetar para o módulo Fundamentos (0) e primeira questão
-  currentModule = 0;
-  currentQuestion = 0;
-  localStorage.removeItem('currentTest');
-  localStorage.removeItem('testAnswers');
-  
-  // Resetar buttons de módulos
-  document.querySelectorAll('.quiz-mod').forEach((btn, idx) => {
-    btn.classList.toggle('sel', idx === 0);
-  });
-  
-  // Recarregar a primeira questão
-  if (typeof TESTE_MODULOS !== 'undefined' && TESTE_MODULOS[0]) {
-    loadQuestion();
+function retryTestes() {
+        // Limpa todas as respostas salvas dos módulos do quiz
+        for (let m = 0; m < QD.length; m++) {
+          sessionStorage.removeItem('qz_' + m);
   }
+        // Volta para o módulo Fundamentos e primeira questão, re-renderizando a UI
+        setMod(0);
 }
   function setOpenAIKey() { const key = document.getElementById('openai-key').value.trim(); if (!key) { alert('Por favor, insira a chave de API'); return; } localStorage.setItem('openai_api_key', key); document.getElementById('openai-key').value = ''; document.getElementById('openai-key').style.display = 'none'; document.getElementById('chat-interface').style.display = 'block'; alert('✓ Chave configurada!'); }
   function enviarPergunta() { const pergunta = document.getElementById('chat-input').value.trim(); if (!pergunta) return; const key = localStorage.getItem('openai_api_key'); if (!key) { alert('Configure a chave primeiro!'); return; } const messagesDiv = document.getElementById('chat-messages'); const userMsg = document.createElement('div'); userMsg.style.cssText = 'padding: 10px; background: #fff3cd; border-radius: 4px; margin-bottom: 8px;'; userMsg.innerHTML = '<strong>Você:</strong> ' + pergunta; messagesDiv.appendChild(userMsg); messagesDiv.scrollTop = messagesDiv.scrollHeight; document.getElementById('chat-input').value = ''; }
