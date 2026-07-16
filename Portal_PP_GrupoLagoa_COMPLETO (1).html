@@ -1163,6 +1163,43 @@ function retryTestes() {
 })();
 </script>
   <script>
+    (function(){
+      var PP_SHEET_ID = '1-BQPj_QL-0vwRtXBwLq5hY16JPvJVN1WlE6bKmWHgZc';
+      function ppGviz(gid){
+        var url = 'https://docs.google.com/spreadsheets/d/' + PP_SHEET_ID + '/gviz/tq?tqx=out:json&gid=' + gid;
+        return fetch(url).then(function(r){ return r.text(); }).then(function(txt){
+          var json = JSON.parse(txt.substring(txt.indexOf('{'), txt.lastIndexOf('}')+1));
+    var cols = json.table.cols.map(function(c){ return c.label || c.id; });
+          return json.table.rows.map(function(row){
+    var obj = {};
+    (row.c||[]).forEach(function(cell, i){ obj[cols[i]] = cell ? (cell.v!==undefined? cell.v : '') : ''; });
+            return obj;
+          });
+        });
+      }
+      window.ppGviz = ppGviz;
+      function ppRenderRotina(rows){
+        var grid = document.getElementById('weekGrid');
+        if(!grid || !rows.length) return;
+          var dias = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
+        var hoje = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'][new Date().getDay()];
+        var html = '';
+        dias.forEach(function(dia){
+          var itens = rows.filter(function(r){ return r.Dia === dia; }).sort(function(a,b){ return (+a.Ordem)-(+b.Ordem); });
+          html += '<div class="day-col"><div class="day-hd' + (dia===hoje? ' today':'') + '">' + dia + '</div><div class="day-items">';
+          itens.forEach(function(it){
+            html += '<div class="day-item">' + (it.Icone||'') + ' ' + (it.Tarefa||'') + '</div>';
+          });
+          html += '</div></div>';
+        });
+        grid.innerHTML = html;
+      }
+      document.addEventListener('DOMContentLoaded', function(){
+          ppGviz('1577834834').then(ppRenderRotina).catch(function(e){ console.warn('Rotina Semanal: usando conteudo padrao', e); });
+      });
+    })();
+  </script>
+  <script>
     document.addEventListener('DOMContentLoaded', function(){
       var certLogos = document.getElementById('certLogos');
       var headerImgs = document.querySelectorAll('header img');
