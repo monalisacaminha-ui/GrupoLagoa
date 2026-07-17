@@ -193,8 +193,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
   <div id="freeNav" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
     <button class="free-btn" data-nav-id="indicadores" onclick="ir('indicadores')">📊 Indicadores</button>
     <button class="free-btn" data-nav-id="duvidas" onclick="ir('duvidas')">🤖 Tira-Dúvidas</button>
-    <button class="free-btn" data-nav-id="ocorrencias" onclick="ir('ocorrencias')">🚨 Ocorrências</button>
-    <button class="free-btn" data-nav-id="legislacao" onclick="ir('legislacao')">⚖️ Legislação</button>
+        <button class="free-btn" data-nav-id="legislacao" onclick="ir('legislacao')">⚖️ Legislação</button>
     <button class="free-btn" data-nav-id="certificado" onclick="ir('certificado')">🏆 Certificado</button>
   </div>
   <div class="brand">
@@ -539,55 +538,6 @@ nav button.locked{opacity:.4;cursor:not-allowed}
         <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Como aferir balança?')">Como aferir balança?</button>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- OCORRENCIAS -->
-<section id="sec-ocorrencias" class="sec">
-  <h1 class="pg-title">Registro de Ocorrências</h1>
-  <p class="pg-sub">Registre ocorrências de desvio, furto, divergência ou incidente operacional</p>
-  <div class="blk">
-    <h2>📋 Formulário de Ocorrência</h2>
-    
-    <!-- Ocorrências Form -->
-    <div style="margin-top: 32px; padding: 24px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-      <h3 style="color: #003366; margin-bottom: 20px; font-size: 1.1em;">📝 Formulário de Registro</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Data:</label><input id="ocor-data" type="date" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Hora:</label><input id="ocor-hora" type="time" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Loja:</label><input id="ocor-loja" type="text" placeholder="Ex: Loja Centro" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Setor:</label><input id="ocor-setor" type="text" placeholder="Ex: Padaria" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Tipo:</label><select id="ocor-tipo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"><option value="">Selecione...</option><option value="operacional">Operacional</option><option value="furto">Furto</option><option value="validade">Validade</option></select></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Gravidade:</label><select id="ocor-gravidade" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"><option value="">Selecione...</option><option value="baixa">Baixa</option><option value="media">Média</option><option value="alta">Alta</option></select></div>
-      </div>
-      <div style="margin-bottom: 20px;"><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Descrição:</label><textarea id="ocor-descricao" placeholder="Descreva a ocorrência..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; min-height: 100px;"></textarea></div>
-      <div style="margin-bottom: 20px;"><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Responsável:</label><input id="ocor-responsavel" type="text" placeholder="Nome do responsável" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-      <div style="display: flex; gap: 8px; margin-bottom: 16px;"><button onclick="salvarOcorrencia()" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">💾 Salvar</button><button onclick="retryOcorrencia()" style="padding: 10px 20px; background-color: #f0ad4e; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">↻ Tentar Novamente</button></div>
-      <div id="ocor-message" style="padding: 10px; border-radius: 4px; display: none; margin-bottom: 16px;"></div>
-    </div>
-    <div class="form-row">
-      <div><label class="fl">Data da Ocorrência *</label><input type="date" class="fi" id="ocData"></div>
-      <div><label class="fl">Horário *</label><input type="time" class="fi" id="ocHora"></div>
-    </div>
-    <div class="form-row">
-      <div><label class="fl">Loja *</label><select class="fi" id="ocLoja"><option value="">Selecione...</option><option>Lag Atacadão — Filial 01</option><option>Lag Atacadão — Filial 02</option><option>Super Lagoa — Filial 01</option><option>Super Lagoa — Filial 02</option></select></div>
-      <div><label class="fl">Setor *</label><select class="fi" id="ocSetor"><option value="">Selecione...</option><option>FLV</option><option>Açougue</option><option>Padaria</option><option>Mercearia Seca</option><option>Bazar</option><option>Eletro</option><option>Bebidas</option><option>Portaria</option><option>Caixa</option><option>Depósito</option></select></div>
-    </div>
-    <div class="form-row">
-      <div><label class="fl">Tipo de Ocorrência *</label><select class="fi" id="ocTipo"><option value="">Selecione...</option><option>Furto Externo</option><option>Furto Interno</option><option>Quebra Operacional</option><option>Divergência de Inventário</option><option>Divergência de NF</option><option>Avaria de Produto</option><option>Produto Vencido</option><option>Acidente de Trabalho</option><option>Outros</option></select></div>
-      <div><label class="fl">Gravidade</label><select class="fi" id="ocGrav"><option>Baixa</option><option>Média</option><option selected="">Alta</option><option>Crítica</option></select></div>
-    </div>
-    <div class="form-row full"><label class="fl">Descrição detalhada *</label><textarea class="fi" id="ocDesc" placeholder="Descreva o ocorrido com o máximo de detalhes: produto, quantidade, valor estimado, envolvidos, testemunhas..."></textarea></div>
-    <div class="form-row full"><label class="fl">Ação imediata tomada</label><textarea class="fi" id="ocAcao" placeholder="Descreva a ação tomada no momento da ocorrência..." style="min-height:70px"></textarea></div>
-    <div class="form-row">
-      <div><label class="fl">Nome do Responsável pelo Registro *</label><input type="text" class="fi" id="ocResp" placeholder="Nome completo"></div>
-      <div><label class="fl">Cargo</label><input type="text" class="fi" id="ocCargo" placeholder="Ex.: Coordenador PP"></div>
-    </div>
-    <button class="btn btn-primary" onclick="registrarOcorrencia()">📋 Registrar Ocorrência</button>
-  </div>
-  <div class="blk" id="ocHistorico">
-    <h2>📁 Histórico de Ocorrências (Sessão)</h2>
-    <div id="ocLista"><p style="color:#888;font-size:.88rem">Nenhuma ocorrência registrada nesta sessão.</p></div>
   </div>
 </section>
 
@@ -936,8 +886,7 @@ const AGENT_KB = {
   'clt': 'A demissão por justa causa por furto se baseia no Art. 482, alínea "a" da CLT (improbidade). O processo deve ser documentado: registros de ocorrência, imagens, testemunhos. Acione o RH para conduzir o processo disciplinar.',
   'portaria': 'Na portaria: sempre confira 100% das NFs contra a mercadoria física. Nunca assine NF com divergência. Registre placa, horário de entrada/saída. Controle acesso de todos os fornecedores e prestadores. Acione Coord. PP em caso de qualquer irregularidade.',
   'flv': 'No setor de FLV: verifique temperaturas de câmaras diariamente, inspecione validades, execute contagem diária dos itens críticos, registre quebras operacionais, afira balanças conforme cronograma e comunique perdas acima da meta ao gestor.',
-  'ocorrencia': 'Para registrar uma ocorrência: use a aba "Ocorrências" do portal. Preencha: data, hora, loja, setor, tipo, gravidade, descrição detalhada e ação tomada. O prazo máximo é 2 horas após o evento. Mantenha o histórico atualizado.',
-  'camera': 'As câmeras devem ser verificadas no checklist de abertura e fechamento. Imagens devem ser retidas por no mínimo 30 dias. Em caso de ocorrência, preserve as imagens do período e comunique a TI para backup antes do prazo de sobrescrita.',
+    'camera': 'As câmeras devem ser verificadas no checklist de abertura e fechamento. Imagens devem ser retidas por no mínimo 30 dias. Em caso de ocorrência, preserve as imagens do período e comunique a TI para backup antes do prazo de sobrescrita.',
   'acuracia': 'Acurácia de estoque = (Itens sem divergência / Total de itens contados) × 100. Meta mínima: 95% geral. Por setor: FLV 90%, Açougue 93%, Padaria 88%, Mercearia 97%, Bazar 98%, Eletro 99%, Bebidas 97%.'
 };
 
@@ -969,44 +918,6 @@ function getBotResp(msg){
   if(msg.includes('nf')||msg.includes('nota fiscal')||msg.includes('carga'))return AGENT_KB.portaria;
   if(msg.includes('acur'))return AGENT_KB.acuracia;
   return 'Não encontrei uma resposta específica para "'+msg+'". Tente perguntar sobre: PDL, quebra, inventário, balança, furto, meta de quebra, perda, checklist, LGPD, CLT, portaria, FLV, câmera ou acurácia. Posso ajudar com qualquer desses temas!';
-}
-
-// ============ OCORRENCIAS ============
-let _ocList=[];
-function registrarOcorrencia(){
-  const data=document.getElementById('ocData').value;
-  const hora=document.getElementById('ocHora').value;
-  const loja=document.getElementById('ocLoja').value;
-  const setor=document.getElementById('ocSetor').value;
-  const tipo=document.getElementById('ocTipo').value;
-  const grav=document.getElementById('ocGrav').value;
-  const desc=document.getElementById('ocDesc').value;
-  const acao=document.getElementById('ocAcao').value;
-  const resp=document.getElementById('ocResp').value;
-  const cargo=document.getElementById('ocCargo').value;
-  if(!data||!hora||!loja||!setor||!tipo||!desc||!resp){
-    alert('⚠️ Preencha todos os campos obrigatórios (marcados com *).');return;
-  }
-  const oc={id:Date.now(),data,hora,loja,setor,tipo,grav,desc,acao,resp,cargo};
-  _ocList.unshift(oc);
-  const gravCls={Baixa:'badge-green',Média:'badge-orange',Alta:'badge-orange',Crítica:'badge-red'};
-  document.getElementById('ocLista').innerHTML=_ocList.map(o=>`
-    <div style="background:#f8f9fc;border-radius:8px;padding:14px;margin-bottom:10px;border-left:4px solid #0d2460">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <strong style="color:#0d2460">${o.tipo}</strong>
-        <span class="badge ${gravCls[o.grav]||'badge-blue'}">${o.grav}</span>
-      </div>
-      <div style="font-size:.82rem;color:#666">${o.data} ${o.hora} | ${o.loja} | ${o.setor}</div>
-      <div style="font-size:.86rem;margin-top:6px">${o.desc.substring(0,150)}${o.desc.length>150?'...':''}</div>
-      <div style="font-size:.8rem;color:#888;margin-top:4px">Registrado por: ${o.resp} (${o.cargo||'—'})</div>
-    </div>`).join('');
-  ['ocData','ocHora','ocDesc','ocAcao','ocResp','ocCargo'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('ocLoja').value='';
-  document.getElementById('ocSetor').value='';
-  document.getElementById('ocTipo').value='';
-  document.getElementById('ocGrav').value='Alta';
-  alert('✅ Ocorrência registrada com sucesso!');
-  document.getElementById('ocHistorico').scrollIntoView({behavior:'smooth'});
 }
 
 // ============ MODALS ============
@@ -1125,19 +1036,7 @@ function renderCertificado(){
     } else { mostrarMensagem('indic-message', 'Webhook não configurado', 'error'); }
   }
   function retryIndicadores() { document.getElementById('indic-quebra').value = ''; document.getElementById('indic-acuracia').value = ''; document.getElementById('indic-checklists').value = ''; document.getElementById('indic-divergencias').value = ''; document.getElementById('indic-message').style.display = 'none'; }
-  function salvarOcorrencia() {
-    const data_field = document.getElementById('ocor-data').value, hora = document.getElementById('ocor-hora').value, loja = document.getElementById('ocor-loja').value, setor = document.getElementById('ocor-setor').value, tipo = document.getElementById('ocor-tipo').value, gravidade = document.getElementById('ocor-gravidade').value, descricao = document.getElementById('ocor-descricao').value, responsavel = document.getElementById('ocor-responsavel').value;
-    if (!data_field || !hora || !loja || !setor || !tipo || !gravidade || !descricao || !responsavel) { mostrarMensagem('ocor-message', 'Por favor, preencha todos os campos', 'error'); return; }
-    const ocorrenciaData = { timestamp: new Date().toISOString(), data: data_field, hora, loja, setor, tipo, gravidade, descricao, responsavel };
-    if (window._appScriptWebhookUrl) {
-      fetch(window._appScriptWebhookUrl, { method: 'POST', body: JSON.stringify({ type: 'ocorrencias', data: ocorrenciaData }) })
-        .then(r => r.json())
-        .then(result => { mostrarMensagem('ocor-message', '✅ Registrada com sucesso!', 'success'); document.getElementById('ocor-data').value = ''; document.getElementById('ocor-hora').value = ''; document.getElementById('ocor-loja').value = ''; document.getElementById('ocor-setor').value = ''; document.getElementById('ocor-tipo').value = ''; document.getElementById('ocor-gravidade').value = ''; document.getElementById('ocor-descricao').value = ''; document.getElementById('ocor-responsavel').value = ''; })
-        .catch(e => mostrarMensagem('ocor-message', 'Erro: ' + e.message, 'error'));
-    } else { mostrarMensagem('ocor-message', 'Webhook não configurado', 'error'); }
-  }
-  function retryOcorrencia() { document.getElementById('ocor-data').value = ''; document.getElementById('ocor-hora').value = ''; document.getElementById('ocor-loja').value = ''; document.getElementById('ocor-setor').value = ''; document.getElementById('ocor-tipo').value = ''; document.getElementById('ocor-gravidade').value = ''; document.getElementById('ocor-descricao').value = ''; document.getElementById('ocor-responsavel').value = ''; document.getElementById('ocor-message').style.display = 'none'; }
-function retryTestes() {
+  function retryTestes() {
         // Limpa todas as respostas salvas dos módulos do quiz
         for (let m = 0; m < QD.length; m++) {
           sessionStorage.removeItem('qz_' + m);
@@ -1154,9 +1053,7 @@ function retryTestes() {
   window.switchIndicPeriodo = switchIndicPeriodo;
   window.salvarIndicadores = salvarIndicadores;
   window.retryIndicadores = retryIndicadores;
-  window.salvarOcorrencia = salvarOcorrencia;
-  window.retryOcorrencia = retryOcorrencia;
-  window.retryTestes = retryTestes;
+      window.retryTestes = retryTestes;
   window.setOpenAIKey = setOpenAIKey;
   window.enviarPergunta = enviarPergunta;
   window.mostrarMensagem = mostrarMensagem;
