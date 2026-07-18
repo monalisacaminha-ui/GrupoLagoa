@@ -107,7 +107,7 @@ tr:nth-child(even) td{background:#fafbff}
 .kpi{background:#fff;border-radius:10px;padding:18px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.07)}
 .kpi .val{font-size:2rem;font-weight:700;color:#0d2460}
 .kpi .lbl{font-size:.78rem;color:#666;margin-top:4px}
-.kpi .tgt{font-size:.75rem;color:#f5a623;margin-top:4px;font-weight:600}
+a.kpi .tgt{font-size:.75rem;color:#f5a623;margin-top:4px;font-weight:600}.kpi .mr-row{display:flex;justify-content:center;gap:16px;margin-bottom:6px}.kpi .mr-col{display:flex;flex-direction:column;align-items:center}.kpi .mr-lbl{font-size:.62rem;color:#888;text-transform:uppercase;letter-spacing:.4px}.kpi .mr-val{font-size:1.3rem;font-weight:700;color:#0d2460}.kpi .mr-val.real{color:#f5a623}
 /* FORM */
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .form-row.full{grid-template-columns:1fr}
@@ -413,35 +413,9 @@ nav button.locked{opacity:.4;cursor:not-allowed}
 <section id="sec-indicadores" class="sec">
   <h1 class="pg-title">Indicadores &amp; KPIs</h1>
   <p class="pg-sub">Métricas de desempenho da área de Prevenção de Perdas</p>
-  <div class="kpi-grid">
-    <div class="kpi"><div class="val">0,8%</div><div class="lbl">Meta de Quebra</div><div class="tgt">% sobre faturamento</div></div>
-    <div class="kpi"><div class="val">95%</div><div class="lbl">Acurácia de Estoque</div><div class="tgt">Meta mínima inventário</div></div>
-    <div class="kpi"><div class="val">100%</div><div class="lbl">Checklists Executados</div><div class="tgt">Meta diária</div></div>
-    <div class="kpi"><div class="val">&lt;2h</div><div class="lbl">Registro de Ocorrência</div><div class="tgt">Tempo máximo após evento</div></div>
-    <div class="kpi"><div class="val">0</div><div class="lbl">NFs com Divergência</div><div class="tgt">Meta mensal sem ajuste</div></div>
-    <div class="kpi"><div class="val">100%</div><div class="lbl">Balanças Aferidas</div><div class="tgt">Conforme cronograma</div></div>
-  </div>
+  <div class="kpi-grid"> <div class="kpi"><div class="mr-row"><div class="mr-col"><span class="mr-lbl">Meta</span><span class="mr-val">0,8%</span></div><div class="mr-col"><span class="mr-lbl">Realizado</span><span class="mr-val real">—</span></div></div><div class="lbl">Meta de Quebra</div><div class="tgt">% sobre faturamento</div></div> <div class="kpi"><div class="mr-row"><div class="mr-col"><span class="mr-lbl">Meta</span><span class="mr-val">95%</span></div><div class="mr-col"><span class="mr-lbl">Realizado</span><span class="mr-val real">—</span></div></div><div class="lbl">Acurácia de Estoque</div><div class="tgt">Meta mínima inventário</div></div> <div class="kpi"><div class="mr-row"><div class="mr-col"><span class="mr-lbl">Meta</span><span class="mr-val">100%</span></div><div class="mr-col"><span class="mr-lbl">Realizado</span><span class="mr-val real">—</span></div></div><div class="lbl">Checklists Executados</div><div class="tgt">Meta diária</div></div> <div class="kpi"><div class="mr-row"><div class="mr-col"><span class="mr-lbl">Meta</span><span class="mr-val">&lt;2h</span></div><div class="mr-col"><span class="mr-lbl">Realizado</span><span class="mr-val real">—</span></div></div><div class="lbl">Registro de Ocorrência</div><div class="tgt">Tempo máximo após evento</div></div> <div class="kpi"><div class="mr-row"><div class="mr-col"><span class="mr-lbl">Meta</span><span class="mr-val">0</span></div><div class="mr-col"><span class="mr-lbl">Realizado</span><span class="mr-val real">—</span></div></div><div class="lbl">NFs com Divergência</div><div class="tgt">Meta mensal sem ajuste</div></div> <div class="kpi"><div class="mr-row"><div class="mr-col"><span class="mr-lbl">Meta</span><span class="mr-val">100%</span></div><div class="mr-col"><span class="mr-lbl">Realizado</span><span class="mr-val real">—</span></div></div><div class="lbl">Balanças Aferidas</div><div class="tgt">Conforme cronograma</div></div> <div class="kpi"><div class="mr-row"><div class="mr-col"><span class="mr-lbl">Meta</span><span class="mr-val">100%</span></div><div class="mr-col"><span class="mr-lbl">Realizado</span><span class="mr-val real">—</span></div></div><div class="lbl">Depósito x Loja</div><div class="tgt">Conferência conforme cronograma</div></div> </div>
 
   
-    <!-- Registrar Realizado Section -->
-    <div style="margin-top: 32px; padding: 24px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-      <h3 style="color: #003366; margin-bottom: 20px; font-size: 1.1em;">📊 Registrar Realizado</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Quebra (%):</label><input id="indic-quebra" type="number" step="0.1" placeholder="Ex: 0.8" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Acurácia (%):</label><input id="indic-acuracia" type="number" step="0.1" placeholder="Ex: 95" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Checklists (%):</label><input id="indic-checklists" type="number" step="0.1" placeholder="Ex: 100" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-        <div><label style="display: block; margin-bottom: 6px; color: #333; font-weight: 500;">Divergências:</label><input id="indic-divergencias" type="number" step="1" placeholder="Ex: 0" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;"></div>
-      </div>
-      <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-        <select id="indic-periodo" style="padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
-          <option value="mes">Mês Atual</option>
-          <option value="acumulado">Acumulado</option>
-        </select>
-        <button onclick="salvarIndicadores()" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">💾 Salvar</button>
-        <button onclick="retryIndicadores()" style="padding: 10px 20px; background-color: #f0ad4e; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">↻ Tentar Novamente</button>
-      </div>
-      <div id="indic-message" style="padding: 10px; border-radius: 4px; display: none; margin-bottom: 16px;"></div>
-    </div>
     <div class="blk">
     <h2>🎯 Metas por Setor</h2>
     <table>
@@ -481,7 +455,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     </div>
     <div style="margin-top:16px">
       <p style="font-size:.8rem;color:#888;margin-bottom:8px">Sugestões de perguntas:</p>
-      <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <div style="display:flex;flex-wrap:wrap;gap:8px"> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Como identificar produtos com validade vencida?')">Como identificar produtos com validade vencida?</button> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('O que fazer em caso de flagrante de furto?')">O que fazer em caso de flagrante de furto?</button> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Como funciona a ronda de prevenção de perdas?')">Como funciona a ronda de prevenção de perdas?</button> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('O que deve conter um boletim de ocorrência?')">O que deve conter um boletim de ocorrência?</button> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Como é feita a conferência de cargas na loja?')">Como é feita a conferência de cargas na loja?</button> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Qual o procedimento para produtos avariados?')">Qual o procedimento para produtos avariados?</button> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Quais são os principais tipos de fraude no varejo?')">Quais são os principais tipos de fraude no varejo?</button> <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Como preencher corretamente o checklist diário?')">Como preencher corretamente o checklist diário?</button>
         <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('O que é o Plano de Ação de Loja?')">O que é o Plano de Ação de Loja?</button>
         <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Como registrar uma quebra?')">Como registrar uma quebra?</button>
         <button class="btn btn-sm" style="background:#eef1fa;color:#1a3e8f" onclick="enviarSug('Qual a meta de quebra?')">Qual a meta de quebra?</button>
