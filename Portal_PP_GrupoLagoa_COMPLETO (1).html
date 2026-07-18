@@ -872,7 +872,7 @@ function enviarSug(txt){
   enviarChat();
 }
 function getBotResp(msg){
-  for(const [k,v] of Object.entries(AGENT_KB)){<h4>Objetivo</h4>
+  for(const [k,v] of Object.entries(AGENT_KB)){
     if(msg.includes(k))return v;
   }
   if(msg.includes('ola')||msg.includes('olá')||msg.includes('oi'))return 'Olá! Estou aqui para ajudar com dúvidas sobre Prevenção de Perdas. Pergunte sobre: checklists, inventário, Plano de Ação de Loja, quebras, meta, balança, furto, LGPD, portaria ou outros temas de PP!';
