@@ -206,7 +206,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
   <button data-nav-id="papeis" onclick="ir('papeis')">👤 Papéis</button>
   <button data-nav-id="rotinas" onclick="ir('rotinas')">🧩 Rotinas</button><button data-nav-id="checklists" onclick="ir('checklists')">✅ Checklists</button>
   <button data-nav-id="pops" onclick="ir('pops')">📄 POPs</button>
-  <button data-nav-id="treinamentos" onclick="ir('treinamentos')">🎓 Treinamentos</button>
+  
   <button data-nav-id="testes" onclick="ir('testes')">🧠 Testes</button>
 </nav><div id="progressWrap" style="background:#0d2460;padding:8px 16px;display:flex;align-items:center;gap:10px">
   <div style="flex:1;background:rgba(255,255,255,.15);border-radius:8px;height:10px;overflow:hidden">
@@ -320,73 +320,7 @@ nav button.locked{opacity:.4;cursor:not-allowed}
     <div class="card" onclick="abrirModal('m9')"><div class="icon">🏪</div><h3>Rotinas Gerentes Geral e Operacional</h3> <span id="popChk_8" style="color:#2e7d32;font-weight:700"></span><p>Rotinas obrigatórias para gerentes de loja vinculadas à PP.</p><br><span class="badge badge-green">Gestão</span></div>
     <div class="card" onclick="abrirModal('m10')"><div class="icon">🗺️</div><h3>Mapeamento PP</h3> <span id="popChk_9" style="color:#2e7d32;font-weight:700"></span><p>Mapeamento de processos e riscos da área de Prevenção de Perdas.</p><br><span class="badge badge-blue">Estratégia</span></div>
   </div>
-<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="tentarConcluir('pops','treinamentos')">Concluir e avancar ➞</button></div></section>
-<!-- TREINAMENTOS -->
-<section id="sec-treinamentos" class="sec">
-  <h1 class="pg-title">Trilha de Treinamentos</h1>
-  <p class="pg-sub">Capacitação progressiva para a equipe de Prevenção de Perdas</p>
-  <div class="alert alert-ok">🎓 Complete os módulos em ordem para uma formação completa na área de PP.</div>
-<div id="vistoTxt_treinamentos" style="margin:10px 0;font-weight:600;color:#1e5b8a"></div>
-  <div class="trail">
-    <div class="trail-item">
-      <div class="trail-line"><div class="trail-dot">1</div><div class="trail-connector"></div></div>
-      <div class="trail-card">
-        <h3>🏪 Fundamentos de Prevenção de Perdas</h3> <span id="trChk_0" style="color:#2e7d32;font-weight:700"></span>
-        <p>Conceitos básicos: o que são perdas, tipos (operacional, furto interno/externo, administrativa), indicadores de quebra e impacto no resultado. Duração estimada: 2h.</p>
-        <br><span class="badge badge-green">Obrigatório — Todos os cargos</span><br><button class="btn btn-sm btn-primary" style="margin-top:8px" onclick="ir('testes');setMod(0)">🧠 Fazer teste: Fundamentos</button>
-      <br><button id="vistoBtn_treinamentos_0" class="btn btn-sm" style="margin-top:8px" onclick="marcarVisto('treinamentos',0)">☑ Marcar como visto</button></div>
-    </div>
-    <div class="trail-item">
-      <div class="trail-line"><div class="trail-dot">2</div><div class="trail-connector"></div></div>
-      <div class="trail-card">
-        <h3>📋 Rotinas Operacionais e Checklists</h3> <span id="trChk_1" style="color:#2e7d32;font-weight:700"></span>
-        <p>Como executar os checklists de abertura, fechamento, portaria e FLV. Registro correto de ocorrências e uso do sistema operacional. Duração estimada: 3h.</p>
-        <br><span class="badge badge-blue">Operacional — Fiscais de Prevenção de Perdas</span><br><button class="btn btn-sm btn-primary" style="margin-top:8px" onclick="ir('testes');setMod(1)">🧠 Fazer teste: Processos</button>
-      <br><button id="vistoBtn_treinamentos_1" class="btn btn-sm" style="margin-top:8px" onclick="marcarVisto('treinamentos',1)">☑ Marcar como visto</button></div>
-    </div>
-    <div class="trail-item">
-      <div class="trail-line"><div class="trail-dot">3</div><div class="trail-connector"></div></div>
-      <div class="trail-card">
-        <h3>🚛 Conferência de Cargas e Portaria</h3> <span id="trChk_2" style="color:#2e7d32;font-weight:700"></span>
-        <p>Processo de recebimento: conferência de NF, contagem física, divergências, protocolos de devolução e registro no sistema. Duração estimada: 2h.</p>
-        <br><span class="badge badge-orange">Portaria — Fiscais de PP e Coord.</span><br><button class="btn btn-sm btn-primary" style="margin-top:8px" onclick="ir('testes');setMod(1)">🧠 Fazer teste: Processos</button>
-      <br><button id="vistoBtn_treinamentos_2" class="btn btn-sm" style="margin-top:8px" onclick="marcarVisto('treinamentos',2)">☑ Marcar como visto</button></div>
-    </div>
-    <div class="trail-item">
-      <div class="trail-line"><div class="trail-dot">4</div><div class="trail-connector"></div></div>
-      <div class="trail-card">
-        <h3>📦 Inventário: Do Pré ao Pós</h3> <span id="trChk_3" style="color:#2e7d32;font-weight:700"></span>
-        <p>Preparação do setor, técnicas de contagem, uso de coletores, tratamento de divergências e análise de resultado. Baseado no Manual Corporativo de Inventário. Duração estimada: 4h.</p>
-        <br><span class="badge badge-blue">Avançado — Coord. e Gestores</span><br><button class="btn btn-sm btn-primary" style="margin-top:8px" onclick="ir('testes');setMod(2)">🧠 Fazer teste: Inventário</button>
-      <br><button id="vistoBtn_treinamentos_3" class="btn btn-sm" style="margin-top:8px" onclick="marcarVisto('treinamentos',3)">☑ Marcar como visto</button></div>
-    </div>
-    <div class="trail-item">
-      <div class="trail-line"><div class="trail-dot">5</div><div class="trail-connector"></div></div>
-      <div class="trail-card">
-        <h3>⚖️ Aferição de Balanças e Metrologia</h3> <span id="trChk_4" style="color:#2e7d32;font-weight:700"></span>
-        <p>Normas do Inmetro, frequência de aferição, responsabilidades, registro e tratamento de não-conformidades. Duração estimada: 1,5h.</p>
-        <br><span class="badge badge-orange">Técnico — Coord. FLV e PP</span><br><span style="font-size:.75rem;color:#999;margin-top:6px;display:inline-block">Teste específico ainda não disponível</span>
-      <br><button id="vistoBtn_treinamentos_4" class="btn btn-sm" style="margin-top:8px" onclick="marcarVisto('treinamentos',4)">☑ Marcar como visto</button></div>
-    </div>
-    <div class="trail-item">
-      <div class="trail-line"><div class="trail-dot">6</div><div class="trail-connector"></div></div>
-      <div class="trail-card">
-        <h3>🛡️ Conduta Profissional e Ética</h3> <span id="trChk_5" style="color:#2e7d32;font-weight:700"></span>
-        <p>Código de conduta do Grupo Lagoa, prevenção de desvios internos, conflito de interesses, denúncia responsável e LGPD aplicada ao contexto de PP. Duração estimada: 2h.</p>
-        <br><span class="badge badge-red">Obrigatório — Todos os cargos</span><br><button class="btn btn-sm btn-primary" style="margin-top:8px" onclick="ir('testes');setMod(3)">🧠 Fazer teste: Conduta</button>
-      <br><button id="vistoBtn_treinamentos_5" class="btn btn-sm" style="margin-top:8px" onclick="marcarVisto('treinamentos',5)">☑ Marcar como visto</button></div>
-    </div>
-    <div class="trail-item">
-      <div class="trail-line"><div class="trail-dot">7</div><div class="trail-connector"></div></div>
-      <div class="trail-card">
-        <h3>📊 Gestão de Indicadores e Plano de Ação de Loja</h3> <span id="trChk_6" style="color:#2e7d32;font-weight:700"></span>
-        <p>Como ler e interpretar indicadores de perda, construir o Plano de Ação de Loja mensal, apresentar resultados e propor ações corretivas. Duração estimada: 3h.</p>
-        <br><span class="badge badge-blue">Gestão — Coordenadores e Gestores</span><br><span style="font-size:.75rem;color:#999;margin-top:6px;display:inline-block">Teste específico ainda não disponível</span>
-      <br><button id="vistoBtn_treinamentos_6" class="btn btn-sm" style="margin-top:8px" onclick="marcarVisto('treinamentos',6)">☑ Marcar como visto</button></div>
-    </div>
-  </div>
-<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="tentarConcluir('treinamentos','testes')">Concluir e avancar ➞</button></div></section>
-
+<div style="margin-top:28px;text-align:right;border-top:1px solid #e4e8f2;padding-top:18px"><button class="btn btn-primary" onclick="tentarConcluir('pops','testes')">Concluir e avancar ➞</button></div></section>
 <!-- TESTES -->
 <section id="sec-testes" class="sec">
   <h1 class="pg-title">Testes de Conhecimento</h1>
@@ -622,7 +556,6 @@ const TOPICS = {
   checklists: CKS.map(c=>c.title),rotinas: ROTINAS.map(r=>r.setor)
 ,
   pops: ['POP — Portaria & Registro de Quebras','POP — Inventário FLV','POP — Aferição de Balança','Manual de Inventário — Rede Lagoa','Manual de Operações PP','Política de Estoque e Inventário','Conferência de Cargas','Normas e Procedimentos','Rotinas Gerentes Geral e Operacional','Mapeamento PP'],
-  treinamentos: ['🏪 Fundamentos de Prevenção de Perdas','📋 Rotinas Operacionais e Checklists','🚛 Conferência de Cargas e Portaria','📦 Inventário: Do Pré ao Pós','⚖️ Aferição de Balanças e Metrologia','🛡️ Conduta Profissional e Ética','📊 Gestão de Indicadores e Plano de Ação de Loja'],
   testes: ['📚 Fundamentos','⚙️ Processos','📦 Inventário','🛡️ Conduta','🧩 Rotinas']
 };
 function getVisto(sec){
@@ -687,17 +620,7 @@ function renderVistoUI(sec){
     });
     syncPopVistoBtn();
   }
-  if(sec==='treinamentos'){
-    TOPICS.treinamentos.forEach((_,i)=>{
-      const b = document.getElementById('vistoBtn_treinamentos_'+i);
-      if(b){
-        if(v.includes(i)){ b.textContent='✅ Visto'; b.disabled=true; }
-        else { b.textContent='☑ Marcar como visto'; b.disabled=false; }
-      }
-      const chk = document.getElementById('trChk_'+i);
-      if(chk) chk.textContent = v.includes(i) ? '✅' : '';
-    });
-  }
+  
   if(sec==='rotinas'){renderRtCards();const btn=document.getElementById('rtVistoBtn');const status=document.getElementById('rtVistoStatus');if(btn&&status){if(v.includes(_rtIdx)){btn.textContent='✅ Visto';btn.disabled=true;status.textContent='Você já marcou esta rotina como vista.';}else{btn.textContent='☑ Marcar como visto';btn.disabled=false;status.textContent='Leia os itens abaixo e marque como visto ao concluir.';}}}if(sec==='testes'){
     TOPICS.testes.forEach((_,i)=>{
       const chk = document.getElementById('qmChk_'+i);
@@ -877,8 +800,8 @@ function fecharModal(e){
 setMod(0);
 
 // ============== JORNADA GUIADA ==============
-const SECTION_ORDER=['inicio','papeis','rotinas','checklists','pops','treinamentos','testes'];
-const SECTION_LABELS={inicio:'Inicio',papeis:'Papeis e Responsabilidades',rotinas:'Rotinas',checklists:'Checklists',pops:'POPs',treinamentos:'Treinamentos',testes:'Testes'};
+const SECTION_ORDER=['inicio','papeis','rotinas','checklists','pops','testes'];
+const SECTION_LABELS={inicio:'Inicio',papeis:'Papeis e Responsabilidades',rotinas:'Rotinas',checklists:'Checklists',pops:'POPs',testes:'Testes'};
 function getProgress(){ return JSON.parse(localStorage.getItem('pp_progress')||'{}'); }
 function isDone(id){ return !!getProgress()[id]; }
 function markDone(id){
@@ -947,7 +870,7 @@ function renderCertificado(){
 })();
 
 
-(function(){ try{ renderVistoUI('papeis'); renderVistoUI('rotinas'); renderVistoUI('checklists'); renderVistoUI('pops'); renderVistoUI('treinamentos'); renderVistoUI('testes'); }catch(e){} 
+(function(){ try{ renderVistoUI('papeis'); renderVistoUI('rotinas'); renderVistoUI('checklists'); renderVistoUI('pops'); renderVistoUI('testes'); }catch(e){} 
   // ===== PHASE 2 FUNCTIONS =====
   function switchIndicPeriodo(periodo) { document.getElementById('indic-periodo').value = periodo; }
   function salvarIndicadores() {
