@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+h<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -139,7 +139,7 @@ footer { text-align:center; margin-top:40px; font-size:.85rem; color:#778; }
 <div class="hr-grid" id="hr-trilhas"></div>
 <h3 class="hr-sub">🙋 Por pessoa</h3>
 <div class="rank-box">
-<p class="obs" style="margin-bottom:14px">Mostrando os 10 primeiros colocados. Use a busca abaixo para encontrar qualquer nome no ranking completo.</p>
+<p class="obs" style="margin-bottom:14px">Mostrando os 5 primeiros colocados. Use a busca abaixo para encontrar qualquer nome no ranking completo.</p>
 <input type="text" id="busca-pessoa" placeholder="🔎 Buscar por nome..." style="width:100%;padding:10px 14px;margin-bottom:14px;border:1px solid #dde3ec;border-radius:20px;font-size:.95rem;outline:none;box-sizing:border-box;font-family:inherit;">
 <table>
 <thead><tr><th>#</th><th>Nome</th><th>Equipe</th><th>Horas</th><th class="xp">XP</th><th style="text-align:right">Cert.</th></tr></thead>
@@ -317,7 +317,7 @@ function parseCSVHoras(text){
 var rows=[], row=[], cell="", q=false;
 for(var i=0;i<text.length;i++){ var ch=text[i];
 if(q){ if(ch==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; } else cell+=ch; }
-else { if(ch==='"')q=true; else if(ch===','){row.push(cell);cell="";} else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell="";} else if(ch==='\r'){} else cell+=ch; }
+els.slice(0, 5)e { if(ch==='"')q=true; else if(ch===','){row.push(cell);cell="";} else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell="";} else if(ch==='\r'){} else cell+=ch; }
 }
 row.push(cell); rows.push(row); return rows;
 }
@@ -331,7 +331,7 @@ var lista = window.pessoasRanking || [];
 var termo = normalizarTexto(filtro);
 var exibir;
 if(termo){ exibir = lista.filter(function(p){ return normalizarTexto(p.nome).indexOf(termo) >= 0; }); }
-else { exibir = lista.slice(0, 10); }
+else { exibir = lista; }
 var html = "";
 for(var i=0;i<exibir.length;i++){ var p = exibir[i];
 html += '<tr><td>'+medalhaPessoa(p.rank)+'</td><td>'+escHoras(p.nome)+'</td><td>'+escHoras(p.equipe)+'</td><td>'+escHoras(p.horas)+'</td><td class="xp">'+escHoras(p.xp)+'</td><td style="text-align:right">'+escHoras(p.cert)+'</td></tr>'; }
