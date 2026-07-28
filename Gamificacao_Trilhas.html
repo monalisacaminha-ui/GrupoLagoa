@@ -333,7 +333,7 @@ var lista = window.pessoasRanking || [];
 var termo = normalizarTexto(filtro);
 var exibir;
 if(termo){ exibir = lista.filter(function(p){ return normalizarTexto(p.nome).indexOf(termo) >= 0; }); }
-else { exibir = lista; }
+        else { exibir = lista.slice(0,5); }
 var html = "";
 for(var i=0;i<exibir.length;i++){ var p = exibir[i];
 html += '<tr><td>'+medalhaPessoa(p.rank)+'</td><td>'+escHoras(p.nome)+'</td><td>'+escHoras(p.equipe)+'</td><td>'+escHoras(p.horas)+'</td><td class="xp">'+escHoras(p.xp)+'</td><td style="text-align:right">'+escHoras(p.cert)+'</td></tr>'; }
