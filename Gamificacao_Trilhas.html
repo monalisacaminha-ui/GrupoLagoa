@@ -345,7 +345,7 @@ function carregarHoras(){
 fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(csv){
 var rows = parseCSVHoras(csv);
 var atuI = findRowHoras(rows,"ATUALIZADO");
-document.getElementById('hr-atu').innerHTML = (atuI>=0?("🕒 Atualizado em <b>"+escHoras(rows[atuI][1]||"")+"</b>"):"") + (var pendV=""; (pendV?(' &nbsp;•&nbsp; ⏳ <b>'+escHoras(pendV)+'</b> curso(s) pendente(s) de validação'):"");
+var pendV=""; document.getElementById('hr-atu').innerHTML = (atuI>=0?("⏱️ Atualizado em <b>"+escHoras(rows[atuI][1]||"")+"</b>"):"") + (pendV?(' &nbsp;•&nbsp; 🏆 <b>'+escHoras(pendV)+'</b> curso(s) pendente(s) de validação'):"");
 
 var tI = findRowHoras(rows,"HORAS POR TRILHA");
 var totI = findRowHoras(rows,"TOTAL GERAL");
