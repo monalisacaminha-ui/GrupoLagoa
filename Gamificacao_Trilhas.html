@@ -1,4 +1,4 @@
-h<!DOCTYPE html>
+hh<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -214,7 +214,9 @@ footer { text-align:center; margin-top:40px; font-size:.85rem; color:#778; }
 <div class="curso"><a href="https://educacao-executiva.fgv.br/cursos/online/curta-media-duracao-online/como-gastar-conscientemente" target="_blank">Como Gastar Conscientemente (FGV)</a><span class="pts">40 XP</span></div>
 <div class="curso"><a href="https://educacao-executiva.fgv.br/cursos/online/curta-media-duracao-online/como-organizar-o-orcamento-familiar" target="_blank">Como organizar o orçamento familiar (FGV)</a><span class="pts">60 XP</span></div>
 <div class="curso"><a href="https://educacao-executiva.fgv.br/cursos/online/curta-media-duracao-online/como-planejar-aposentadoria" target="_blank">Como planejar a aposentadoria (FGV)</a><span class="pts">50 XP</span></div>
-<div class="curso"><a href="https://educacao-executiva.fgv.br/cursos/online/curta-media-duracao-online/excel-para-ciencia-de-dados-avancado" target="_blank">Excel para Ciência de Dados – Avançado (FGV)</a><span class="pts">75 XP</span></div>
+<div class="curso"><a href="https://educacao-executiva.fgv.br/cursos/online/curta-media-duracao-online/excel-para-ciencia-de-dados-avancado" target="_blank">Exc345
+  el para Ciência de Dados – Avançado (FGV)</a><span class="pts">75 XP</span></div>345:10
+  
 <div class="curso"><a href="https://educacao-executiva.fgv.br/cursos/online/curta-media-duracao-online/excel-para-ciencia-de-dados-basico" target="_blank">Excel para Ciência de Dados – Básico (FGV)</a><span class="pts">75 XP</span></div>
 <div class="curso"><a href="https://educacao-executiva.fgv.br/cursos/online/curta-media-duracao-online/excel-para-ciencia-de-dados-intermediario" target="_blank">Excel para Ciência de Dados – Intermediário (FGV)</a><span class="pts">75 XP</span></div>
 <div class="curso"><a href="https://online.pucrs.br/formacao-gratuita/financas-pessoais-e-planejamento-financeiro" target="_blank">Finanças pessoais e planejamento financeiro (PUCRS)</a><span class="pts">50 XP</span></div>
@@ -342,7 +344,7 @@ document.getElementById('hr-pessoas').innerHTML = html;
 function carregarHoras(){
 fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(csv){
 var rows = parseCSVHoras(csv);
-var atuI = findRowHoras(rows,"ATUALIZADO");h
+var atuI = findRowHoras(rows,"ATUALIZADO"h
 var pendV = (function(){var p=findRowHoras(rows,"PENDENTE"); return p>=0?String(rows[p][1]||"").trim():"";})();
 document.getElementById('hr-atu').innerHTML = (atuI>=0?("🕒 Atualizado em <b>"+escHoras(rows[atuI][1]||"")+"</b>"):"") + (pendV?(' &nbsp;•&nbsp; ⏳ <b>'+escHoras(pendV)+'</b> curso(s) pendente(s) de validação'):"");
 
