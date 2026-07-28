@@ -317,7 +317,7 @@ function parseCSVHoras(text){
 var rows=[], row=[], cell="", q=false;
 for(var i=0;i<text.length;i++){ var ch=text[i];
 if(q){ if(ch==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; } else cell+=ch; }
-els.slice(0, 5)e { if(ch==='"')q=true; else if(ch===','){row.push(cell);cell="";} else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell="";} else if(ch==='\r'){} else cell+=ch; }
+else { if(ch==='"')q=true; else if(ch===','){row.push(cell);cell="";} else if(ch==='\n'){row.push(cell);rows.push(row);row=[];cell="";} else if(ch==='\r'){} else cell+=ch; }
 }
 row.push(cell); rows.push(row); return rows;
 }
