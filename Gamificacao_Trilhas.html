@@ -1,10 +1,10 @@
-hh<!DOCTYPE html>
+hhh<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🏆 Desafio das Trilhas — Bora Pontuar!</title>
-<style>
+<style>h
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:linear-gradient(135deg,#f5f7fa 0%,#e8eef5 100%); color:#1f2d3d; line-height:1.5; }
 .wrap { max-width:1100px; margin:0 auto; padding:0 16px 60px; }
@@ -344,8 +344,7 @@ document.getElementById('hr-pessoas').innerHTML = html;
 function carregarHoras(){
 fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(csv){
 var rows = parseCSVHoras(csv);
-var atuI = findRowHoras(rows,"ATUALIZADO"h
-var pendV = (function(){var p=findRowHoras(rows,"PENDENTE"); return p>=0?String(rows[p][1]||"").trim():"";})();
+var atuI = findRowHoras(rows,"ATUALIZADO");
 document.getElementById('hr-atu').innerHTML = (atuI>=0?("🕒 Atualizado em <b>"+escHoras(rows[atuI][1]||"")+"</b>"):"") + (pendV?(' &nbsp;•&nbsp; ⏳ <b>'+escHoras(pendV)+'</b> curso(s) pendente(s) de validação'):"");
 
 var tI = findRowHoras(rows,"HORAS POR TRILHA");
