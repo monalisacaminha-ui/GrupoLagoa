@@ -429,6 +429,44 @@ tentativas++;
 if(preencherCaixinhas() || tentativas > 40){ clearInterval(iv); }
 }, 800);
 })();
+
+/* === SANITIZE_PATCH: corrige lixo transitorio no ranking durante carregamento === */
+(function(){
+  function pareceCodigo(v){
+    if(v==null) return false;
+    var s=String(v);
+    return /function\s|=>|prototype|typeof |globalThis|__proto__|[{}]|return |Object\.|Array\.|String\.|RegExp|\.call\(|\.includes\(/.test(s);
+  }
+  function limpaRanking(){
+    try{
+      if(typeof pessoasRanking!=="undefined" && Array.isArray(pessoasRanking)){
+        var ok=pessoasRanking.filter(function(p){
+          if(!p||typeof p!=="object") return false;
+          if(pareceCodigo(p.nome)||pareceCodigo(p.equipe)) return false;
+          if(!p.nome||String(p.nome).trim()==="") return false;
+          return true;
+        });
+        pessoasRanking.length=0;
+        Array.prototype.push.apply(pessoasRanking,ok);
+        return ok.length;
+      }
+    }catch(e){}
+    return 0;
+  }
+  function envolver(nome){
+    try{
+      if(typeof window[nome]==="function" && !window[nome].__patched){
+        var orig=window[nome];
+        window[nome]=function(){ limpaRanking(); return orig.apply(this,arguments); };
+        window[nome].__patched=true;
+      }
+    }catch(e){}
+  }
+  ["renderizar","renderPessoasTable","atualizarCards"].forEach(envolver);
+  limpaRanking();
+  try{ if(typeof renderizar==="function") renderizar(); }catch(e){}
+})();
+/* === FIM SANITIZE_PATCH === */
 </script>
 </body>
 </html>
