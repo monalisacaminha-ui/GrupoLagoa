@@ -467,6 +467,35 @@ if(preencherCaixinhas() || tentativas > 40){ clearInterval(iv); }
   try{ if(typeof renderizar==="function") renderizar(); }catch(e){}
 })();
 /* === FIM SANITIZE_PATCH === */
+
+/* === FIX_HORAS: preenche card certificados/horas lendo TOTAL GERAL do CSV === */
+(function(){
+  function aplicarHoras(){
+    try{
+      if(typeof CSV_HORAS_URL==="undefined" || typeof parseCSVHoras!=="function") return;
+      fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(t){
+        try{
+          var rows=parseCSVHoras(t);
+          var tot=null;
+          for(var i=0;i<rows.length;i++){
+            if(String((rows[i]&&rows[i][0])||"").trim().toUpperCase().indexOf("TOTAL GERAL")===0){ tot=rows[i]; break; }
+          }
+          if(!tot) return;
+          var horas=String(tot[1]||"").trim();
+          var cert=String(tot[2]||"").trim();
+          var big=document.getElementById("horas-cert-big");
+          var sub=document.getElementById("horas-sub");
+          if(big && cert){ big.textContent="\uD83D\uDCDC "+cert; }
+          if(sub && horas){ var hh=(horas.match(/^\d+/)||[""])[0]; sub.textContent="\u23F1\uFE0F "+hh+" horas de treinamento"; }
+        }catch(e){}
+      }).catch(function(){});
+    }catch(e){}
+  }
+  if(document.readyState!=="loading"){ aplicarHoras(); } else { document.addEventListener("DOMContentLoaded", aplicarHoras); }
+  setTimeout(aplicarHoras, 1500);
+  setTimeout(aplicarHoras, 4000);
+})();
+/* === FIM FIX_HORAS === */
 </script>
 </body>
 </html>
