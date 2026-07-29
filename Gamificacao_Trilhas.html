@@ -468,33 +468,34 @@ if(preencherCaixinhas() || tentativas > 40){ clearInterval(iv); }
 })();
 /* === FIM SANITIZE_PATCH === */
 
-/* === FIX_HORAS: preenche card certificados/horas do TOTAL GERAL do CSV (robusto) === */
+/* === FIX_HORAS: cria o card .hr-total (TOTAL GERAL) que falta, p/ o card de certificados/horas preencher === */
 (function(){
-  var cache=null;
-  function carregarCache(){
+  function criarTotal(){
     try{
-      if(typeof CSV_HORAS_URL==="undefined"||typeof parseCSVHoras!=="function") return;
+      if(document.querySelector(".hr-total")) return true;
+      if(typeof CSV_HORAS_URL==="undefined"||typeof parseCSVHoras!=="function") return false;
+      var cont=document.getElementById("hr-trilhas");
+      if(!cont) return false;
       fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(t){
         try{
+          if(document.querySelector(".hr-total")) return;
           var rows=parseCSVHoras(t), tot=null;
           for(var i=0;i<rows.length;i++){
             if(String((rows[i]&&rows[i][0])||"").trim().toUpperCase().indexOf("TOTAL GERAL")===0){ tot=rows[i]; break; }
           }
-          if(tot){ cache={ cert:String(tot[2]||"").trim(), horas:(String(tot[1]||"").match(/^\d+/)||[""])[0] }; aplicar(); }
+          if(!tot) return;
+          var horas=String(tot[1]||"").trim(), cert=String(tot[2]||"").trim();
+          var d=document.createElement("div");
+          d.className="hr-trilha hr-total";
+          d.innerHTML='<div class="nome">TOTAL GERAL</div><div class="val big">'+horas+'</div><div class="hr-cert num-cert">\uD83D\uDCDC '+cert+' certificados</div>';
+          cont.appendChild(d);
         }catch(e){}
       }).catch(function(){});
-    }catch(e){}
+      return false;
+    }catch(e){ return false; }
   }
-  function aplicar(){
-    if(!cache) return;
-    var big=document.getElementById("horas-cert-big");
-    var sub=document.getElementById("horas-sub");
-    if(big && cache.cert && big.textContent.indexOf(cache.cert)<0){ big.textContent="\uD83D\uDCDC "+cache.cert; }
-    if(sub && cache.horas && sub.textContent.indexOf(cache.horas)<0){ sub.textContent="\u23F1\uFE0F "+cache.horas+" horas de treinamento"; }
-  }
-  carregarCache();
-  setInterval(function(){ if(cache) aplicar(); else carregarCache(); }, 500);
-  setInterval(carregarCache, 60000);
+  criarTotal();
+  var n=0, iv=setInterval(function(){ n++; if(criarTotal()||n>40){ clearInterval(iv); } }, 800);
 })();
 /* === FIM FIX_HORAS === */
 </script>
