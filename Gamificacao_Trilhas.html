@@ -468,32 +468,33 @@ if(preencherCaixinhas() || tentativas > 40){ clearInterval(iv); }
 })();
 /* === FIM SANITIZE_PATCH === */
 
-/* === FIX_HORAS: preenche card certificados/horas lendo TOTAL GERAL do CSV === */
+/* === FIX_HORAS: preenche card certificados/horas do TOTAL GERAL do CSV (robusto) === */
 (function(){
-  function aplicarHoras(){
+  var cache=null;
+  function carregarCache(){
     try{
-      if(typeof CSV_HORAS_URL==="undefined" || typeof parseCSVHoras!=="function") return;
+      if(typeof CSV_HORAS_URL==="undefined"||typeof parseCSVHoras!=="function") return;
       fetch(CSV_HORAS_URL).then(function(r){return r.text();}).then(function(t){
         try{
-          var rows=parseCSVHoras(t);
-          var tot=null;
+          var rows=parseCSVHoras(t), tot=null;
           for(var i=0;i<rows.length;i++){
             if(String((rows[i]&&rows[i][0])||"").trim().toUpperCase().indexOf("TOTAL GERAL")===0){ tot=rows[i]; break; }
           }
-          if(!tot) return;
-          var horas=String(tot[1]||"").trim();
-          var cert=String(tot[2]||"").trim();
-          var big=document.getElementById("horas-cert-big");
-          var sub=document.getElementById("horas-sub");
-          if(big && cert){ big.textContent="\uD83D\uDCDC "+cert; }
-          if(sub && horas){ var hh=(horas.match(/^\d+/)||[""])[0]; sub.textContent="\u23F1\uFE0F "+hh+" horas de treinamento"; }
+          if(tot){ cache={ cert:String(tot[2]||"").trim(), horas:(String(tot[1]||"").match(/^\d+/)||[""])[0] }; aplicar(); }
         }catch(e){}
       }).catch(function(){});
     }catch(e){}
   }
-  if(document.readyState!=="loading"){ aplicarHoras(); } else { document.addEventListener("DOMContentLoaded", aplicarHoras); }
-  setTimeout(aplicarHoras, 1500);
-  setTimeout(aplicarHoras, 4000);
+  function aplicar(){
+    if(!cache) return;
+    var big=document.getElementById("horas-cert-big");
+    var sub=document.getElementById("horas-sub");
+    if(big && cache.cert && big.textContent.indexOf(cache.cert)<0){ big.textContent="\uD83D\uDCDC "+cache.cert; }
+    if(sub && cache.horas && sub.textContent.indexOf(cache.horas)<0){ sub.textContent="\u23F1\uFE0F "+cache.horas+" horas de treinamento"; }
+  }
+  carregarCache();
+  setInterval(function(){ if(cache) aplicar(); else carregarCache(); }, 500);
+  setInterval(carregarCache, 60000);
 })();
 /* === FIM FIX_HORAS === */
 </script>
