@@ -357,7 +357,7 @@ document.getElementById('hr-trilhas').innerHTML = html;
 var eI = findRowHoras(rows,"POR EQUIPE");
 var pzI = findRowHoras(rows,"PRAZO");
 var icones={ "Bate-Metas":"🏃","Desbravadores":"🧭","Desenrolados":"⚡" };
-var lojas = {"Desbravadores":"Atacadão Lag + todo o time de Prevenção de Perdas","Desenrolados":"Lojas de número PAR do Super Lagoa","Bate-Metas":"Lojas de número ÍMPAR do Grupo Lagoa"};
+var lojas = {"Desbravadores":"Regional Samuel e Gerente de PP Adriano (lojas MES, IGU, BER, LES e toda a Equipe da Prevenção de Perdas)","Desenrolados":"Regional Juliara (lojas PAR, SOB, BAR, CEN, DRB e ROD)","Bate-Metas":"Regional Josy (lojas NSH, JAC, LUC, SDO, CID e CGA)","Cariri em Marcha":"Regional Antonio (todas as lojas de Juazeiro, Crato, Barbalha e Missão Velha)"};
 var eh="";
 for(var j=eI+2;j<pzI;j++){ var en=String(rows[j][0]||"").replace(/[^A-Za-zÀ-ÿ\- ]/g,"").trim(); var eHoras=String(rows[j][1]||"").trim(); if(!en) continue;
 var xp=String(rows[j][2]||"").trim(), xph=String(rows[j][3]||"").trim(), cert=String(rows[j][4]||"").trim();
