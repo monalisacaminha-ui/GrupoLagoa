@@ -87,7 +87,7 @@ footer { text-align:center; margin-top:40px; font-size:.85rem; color:#778; }
 <div class="box"><img src="logo-super-lagoa.png" alt="Super Lagoa"></div>
 </div>
 <h1>🏆 Desafio das Trilhas — Bora Pontuar!</h1>
-<p>76 dias, 3 equipes, 1 missão: aprender muito e subir no ranking! Cada hora de curso concluído (com certificado validado) vale 5 XP. As ilhas da Unilagoa valem 10 XP cada. Bora! 🚀</p>
+<p>89 dias, 4 equipes, 1 missão: aprender muito e subir no ranking! Cada hora de curso concluído (com certificado validado) vale 5 XP. As ilhas da Unilagoa valem 10 XP cada. Bora! 🚀</p>
 </div>
 
 <div class="wrap">
@@ -96,12 +96,12 @@ footer { text-align:center; margin-top:40px; font-size:.85rem; color:#778; }
 <div class="cards">
 <div class="card"><div class="ico">🧭</div><h3>Aprenda</h3><p>Cursos das trilhas e da UniLagoa, no seu ritmo.</p></div>
 <div class="card"><div class="ico">⚡</div><h3>Pontue</h3><p>Cada curso concluído vira XP para a sua equipe.</p></div>
-<div class="card"><div class="ico">🤝</div><h3>Em equipe</h3><p>3 times mistos: gerentes gerais, operacionais e líderes de área.</p></div>
+<div class="card"><div class="ico">🤝</div><h3>Em equipe</h3><p>4 times mistos: gerentes gerais, operacionais e líderes de área.</p></div>
 <div class="card"><div class="ico">📈</div><h3>Se qualifique</h3><p>O objetivo é se qualificar cada vez mais — todo mundo cresce.</p></div>
 </div>
 <div class="nums" style="margin-top:18px">
 <div class="num">
-<div class="big" style="font-size:1.6rem;line-height:1.4">59 <span style="font-size:.95rem;font-weight:600;color:#556">cursos</span><br>8 <span style="font-size:.95rem;font-weight:600;color:#556">trilhas</span><br>3 <span style="font-size:.95rem;font-weight:600;color:#556">equipes</span></div>
+<div class="big" style="font-size:1.6rem;line-height:1.4">59 <span style="font-size:.95rem;font-weight:600;color:#556">cursos</span><br>8 <span style="font-size:.95rem;font-weight:600;color:#556">trilhas</span><br>4 <span style="font-size:.95rem;font-weight:600;color:#556">equipes</span></div>
 <div class="lbl">o desafio em números</div>
 </div>
 <div class="num" id="box-top-xp">
@@ -371,10 +371,16 @@ document.getElementById('hr-equipes').innerHTML = eh;
 
 var ppI = findRowHoras(rows,"POR PESSOA");
 var getP=function(label){ for(var k=pzI+1;k<ppI;k++){ if(String(rows[k][0]||"").toUpperCase().indexOf(label)>=0) return String(rows[k][1]||"").trim(); } return ""; };
-var dias=getP("DIAS FALTANTES"), ini=getP("INÍCIO")||getP("INICIO"), fim=getP("TÉRMINO")||getP("TERMINO");
-var durTxt = getP("DURA"); var durN = parseInt(String(durTxt).replace(/\D/g,""),10)||76;
-var diasN = parseInt(String(dias).replace(/\D/g,""),10)||0;
-var passados = Math.max(0, durN - diasN); var pct = durN>0 ? Math.min(100, Math.round(passados/durN*100)) : 0;
+/* Periodo do desafio fixado na pagina (nao depende mais da planilha) */
+var DESAFIO_INI = "13/06/2026", DESAFIO_FIM = "10/09/2026";
+var parseBR = function(d){ var p = String(d).split("/"); return new Date(+p[2], +p[1]-1, +p[0]); };
+var ini = DESAFIO_INI, fim = DESAFIO_FIM;
+var dIni = parseBR(DESAFIO_INI), dFim = parseBR(DESAFIO_FIM), agora = new Date();
+var hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+var durN = Math.round((dFim - dIni) / 864e5);
+var passados = Math.min(durN, Math.max(0, Math.round((hoje - dIni) / 864e5)));
+var diasN = Math.max(0, durN - passados);
+var pct = durN>0 ? Math.min(100, Math.round(passados/durN*100)) : 0;
 var pbox = document.getElementById('prazo-box');
 if(pbox){ pbox.innerHTML = '<div class="big" style="font-size:1.25rem;line-height:1.2">'+escHoras(ini)+' <span style="color:#1565d8">→</span> '+escHoras(fim)+'</div><div class="lbl">📅 período do desafio</div><div class="pb-track" style="margin-top:10px;height:18px"><div class="pb-fill" style="width:'+pct+'%;font-size:.72rem;padding-right:8px">'+pct+'%</div></div><div class="pb-lbl" style="font-size:.72rem;margin-top:4px">'+passados+' de '+durN+' dias percorridos</div>'; }
 
