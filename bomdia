@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagem do Dia - Carinho Digital</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --bg: #f4f4f9;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 { color: var(--primary); font-size: 1.8rem; }
+        
+        .input-group {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 1.1rem; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        #canvasContainer {
+            margin-top: 20px;
+            display: none; /* Escondido até gerar */
+        }
+
+        canvas {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .instructions {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🌸 Mensagem do Dia</h1>
+        <p>Crie seu cartão motivacional para enviar aos amigos!</p>
+
+        <div class="input-group">
+            <label for="userName">Seu Nome:</label>
+            <input type="text" id="userName" placeholder="Ex: Maria Silva" oninput="saveName()">
+        </div>
+
+        <button onclick="generateCard()">✨ Gerar meu Cartão</button>
+
+        <div id="canvasContainer">
+            <canvas id="cardCanvas" width="600" height="600"></canvas>
+            <p class="instructions">Toque na imagem acima e segure para "Fazer download" ou use o botão abaixo:</p>
+            <button style="background-color: #25D366;" onclick="shareImage()">📲 Enviar no WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        const phrases = [
+            "Que seu dia seja repleto de luz e alegrias!",
+            "Grandes coisas estão por vir, acredite!",
+            "Sua presença é um presente para o mundo.",
+            "O segredo da felicidade é a gratidão.",
+            "Cada novo dia é uma nova chance de ser feliz.",
+            "Que a paz de Deus preencha seu coração hoje.",
+            "Você é mais forte do que imagina!"
+        ];
+
+        const days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+
+        // Carregar nome salvo
+        window.onload = () => {
+            const savedName = localStorage.getItem('user_name');
+            if (savedName) document.getElementById('userName').value = savedName;
+        };
+
+        function saveName() {
+            localStorage.setItem('user_name', document.getElementById('userName').value);
+        }
+
+        function generateCard() {
+            const name = document.getElementById('userName').value || "Alguém Especial";
+            const canvas = document.getElementById('cardCanvas');
+            const ctx = canvas.getContext('2d');
+            const container = document.getElementById('canvasContainer');
+            
+            container.style.display = "block";
+
+            // 1. Fundo Gradiente
+            const gradient = ctx.createLinearGradient(0, 0, 0, 600);
+            gradient.addColorStop(0, '#e0f7fa');
+            gradient.addColorStop(1, '#ffffff');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 600, 600);
+
+            // 2. Decoração (Círculos suaves)
+            ctx.fillStyle = 'rgba(76, 175, 80, 0.1)';
+            ctx.beginPath();
+            ctx.arc(550, 50, 100, 0, Math.PI * 2);
+            ctx.fill();
+
+            // 3. Dia da Semana
+            const today = new Date();
+            const dayName = days[today.getDay()];
+            ctx.font = 'bold 30px Arial';
+            ctx.fillStyle = '#4CAF50';
+            ctx.textAlign = 'center';
+            ctx.fillText(dayName, 300, 80);
+
+            // 4. Frase Motivacional
+            const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+            ctx.font = 'italic 35px Georgia';
+            ctx.fillStyle = '#333';
+            wrapText(ctx, phrase, 300, 250, 500, 45);
+
+            // 5. Rodapé (Assinatura)
+            ctx.font = 'bold 25px Arial';
+            ctx.fillStyle = '#666';
+            ctx.fillText("Com carinho, " + name, 300, 530);
+
+            // Rolar para a imagem
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        // Função para quebrar texto longo no Canvas
+        function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            let words = text.split(' ');
+            let line = '';
+            for(let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = context.measureText(testLine);
+                let testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    context.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                }
+                else { line = testLine; }
+            }
+            context.fillText(line, x, y);
+        }
+
+        async function shareImage() {
+            const canvas = document.getElementById('cardCanvas');
+            canvas.toBlob(async (blob) => {
+                const file = new File([blob], 'bom-dia.png', { type: 'image/png' });
+                if (navigator.share) {
+                    try {
+                        await navigator.share({
+                            files: [file],
+                            title: 'Mensagem do Dia',
+                            text: 'Olha o que eu criei para você!'
+                        });
+                    } catch (err) {
+                        console.log("Erro ao compartilhar:", err);
+                    }
+                } else {
+                    alert("Seu navegador não suporta compartilhamento direto. Clique na imagem e segure para salvar.");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
