@@ -115,7 +115,8 @@ h2.titulo{font-family:'Playfair Display',Georgia,serif;font-size:2.5rem;color:#0
 .hitem .d,.hcabec .d{width:5.2em}
 .hbox{font-size:.78rem;line-height:1.28}
 @page{size:A4 landscape;margin:0}
-@media print{html,body{background:#fff!important;margin:0;padding:0}.hero,.wrap>.painel{display:none!important}.wrap{padding:0;max-width:none}.palco{overflow:visible;padding:0}#cert{box-shadow:none;width:1123px;margin:0}.pg{width:1123px;height:794px;page-break-after:always;break-after:page;border-top:none!important}.pg:last-child{page-break-after:auto;break-after:auto}}
+@page{size:A4 landscape;margin:0}
+@media print{html,body{background:#fff!important;margin:0;padding:0;width:auto;height:auto;overflow:visible}.hero,.wrap>.painel{display:none!important}.wrap{padding:0;max-width:none;overflow:visible}.palco{overflow:visible;padding:0}#cert{box-shadow:none;width:1123px;margin:0}.pg{width:1123px;height:794px;zoom:.92;margin:34px auto;page-break-after:always;break-after:page;page-break-inside:avoid;break-inside:avoid;overflow:hidden;border-top:none!important;box-shadow:none!important}.pg:last-child{page-break-after:auto;break-after:auto}}
 @media(max-width:1180px){.palco{overflow-x:auto}}
 </style>
 </head>
